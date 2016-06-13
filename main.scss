@@ -49,27 +49,12 @@ $max-width: 70em; // For no max-width, use $max-width: null;
 	box-sizing: border-box;
 }
 
-@include grid(main, overlay);
+@include grid(main,overlay);
 
 h1 {
 	background-color: cyan;
 	margin-bottom: .5em;
-	// width: colspan();
-	@include breakpoint-min(xs) {
-		@include full-width(xs);
-	}
-	@include breakpoint-min(sm) {
-		@include full-width(sm);
-	}
-	@include breakpoint-min(md) {
-		@include full-width(md);
-	}
-	@include breakpoint-min(lg) {
-		@include full-width(lg);
-	}
-	@include breakpoint-min(xl) {
-		@include full-width(xl);
-	}
+	@include full-width;
 }
 
 h2 {

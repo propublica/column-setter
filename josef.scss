@@ -47,7 +47,7 @@
 	}
 }
 @function optional($number,$current,$correct) {
-	@return "the optional #{$number} argument ('#{$current}') will only accept a value of '#{$correct}'. "
+	@return "the optional #{$number} argument (currently '#{$current}') will only accept a value of '#{$correct}'. "
 }
 
 // ----------------------------------------
@@ -73,7 +73,6 @@
 // ----------------------------------------
 // width
 // ----------------------------------------
-// ------------------------------------------------------------
 // Josef uses the "width" function to calculate the width of a
 // span of columns, derived from the proportional width
 // variables whose customizable values are defined at the top
@@ -364,12 +363,7 @@ $bp-range-lesson: "A 'breakpoint-range' mixin call must contain valid minimum an
 // ----------------------------------------
 // The "full-width" mixin allows the user to break an element
 // out of the grid and into the margins, taking up the full
-// width of the viewport. NOTE: If a $max-width value has been
-// specified, and the viewport is wider than that max-width,
-// the element will only expand to the outer edges of the
-// margins, NOT the full width of the viewport.
-//
-// EXAMPLE: For a full width img at the "md" breakpoint...
+// width of the viewport. EXAMPLE:
 //
 // img {
 //   @include full-width(md)
@@ -378,29 +372,15 @@ $bp-range-lesson: "A 'breakpoint-range' mixin call must contain valid minimum an
 // ...will compile to something like this:
 //
 // img {
-//   width: 118.73278%;
+//   width: auto;
 //   margin-left: -9.36639%;
+//   margin-right: -9.36639%;
 // } 
 
-$full-width-lesson: "A 'full-width' function call must include a valid breakpoint name, e.g. 'full-width(small)'. " + $valid-bp-names;
-
-@mixin full-width($bp:null) {
-	$all-is-well: true;
-	@if not $bp {
-		$all-is-well: false;
-		@warn invalid("full-width",$bp) + missing(1) + $full-width-lesson;
-	} @else if not map-has-key($breakpoints,$bp) {
-		$all-is-well: false;
-		@warn invalid("full-width",$bp) + wrong-type("valid breakpoint name",$bp) + ". " + $full-width-lesson;
-	} @else if $all-is-well == true {
-		@if map-has-key(map-get($breakpoints, $bp), margin) {
-			width: percentage(width(bp-attribute($bp, cols)) + (bp-attribute($bp, margin) * 2)) / width(bp-attribute($bp, cols));
-			margin-left: -#{percentage(bp-attribute($bp, margin) / width(bp-attribute($bp, cols)))};
-		} @else {
-			width: percentage(width(bp-attribute($bp, cols)) + ($mar * 2)) / width(bp-attribute($bp, cols));
-			margin-left: -#{percentage($mar / width(bp-attribute($bp, cols)))};
-		}
-	}
+@mixin full-width {
+	width: auto;
+	margin-left: calc(-50vw + 50%);
+	margin-right: calc(-50vw + 50%);
 }
 
 // ----------------------------------------
@@ -435,13 +415,20 @@ $full-width-lesson: "A 'full-width' function call must include a valid breakpoin
 //   }
 // }
 
-@mixin grid($class, $overlay:null) {
+$grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(content);'. It may optionally include a second argument of 'overlay' (e.g. 'grid(content,overlay);') to create a translucent grid overlay on top of the grid container.";
+
+@mixin grid($class:null, $overlay:null) {
 	$all-is-well: true;
+	@if not $class {
+		$all-is-well: false;
+		@warn invalid("grid") + missing(1) + $grid-lesson;
+	}
 	@if $overlay != "overlay" 
 	and $overlay != null {
 		$all-is-well: false;
-		@warn invalid("grid",$class,$overlay) + optional("second",$overlay,"overlay");
-	} @else {
+		@warn invalid("grid",$class,$overlay) + optional("second",$overlay,"overlay") + $grid-lesson;
+	}
+	@if $all-is-well == true {
 		.#{$class} {
 			@each $bp, $value in $breakpoints {
 				@include breakpoint-min($bp) {
