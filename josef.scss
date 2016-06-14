@@ -166,6 +166,19 @@ $colspan-lesson: "A 'colspan' function call must include the numeric column widt
 // ------------------------------------------------------------
 // MIXINS
 // ------------------------------------------------------------
+// full-width
+// ----------------------------------------
+// The "full-width" mixin allows the user to break an element
+// out of the grid and into the margins, taking up the full
+// width of the viewport.
+
+@mixin full-width {
+	width: auto;
+	margin-left: calc(-50vw + 50%);
+	margin-right: calc(-50vw + 50%);
+}
+
+// ----------------------------------------
 // breakpoint
 // breakpoint-max
 // breakpoint-range
@@ -356,31 +369,6 @@ $bp-range-lesson: "A 'breakpoint-range' mixin call must contain valid minimum an
 			@media screen and (min-width: bp-attribute($bp-min, min)) and (max-width: bp-attribute($bp-max, min)) { @content }
 		}
 	}
-}
-
-// ----------------------------------------
-// full-width
-// ----------------------------------------
-// The "full-width" mixin allows the user to break an element
-// out of the grid and into the margins, taking up the full
-// width of the viewport. EXAMPLE:
-//
-// img {
-//   @include full-width(md)
-// }
-//
-// ...will compile to something like this:
-//
-// img {
-//   width: auto;
-//   margin-left: -9.36639%;
-//   margin-right: -9.36639%;
-// } 
-
-@mixin full-width {
-	width: auto;
-	margin-left: calc(-50vw + 50%);
-	margin-right: calc(-50vw + 50%);
 }
 
 // ----------------------------------------
