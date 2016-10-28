@@ -71,6 +71,32 @@
 }
 
 // ----------------------------------------
+// bp-validator (UNFINISHED)
+// ----------------------------------------
+// Josef uses the "bp-validator" function to ensure that there
+// are no errors in the $breakpoints map in "main.scss".
+
+@function bp-validator() {
+	@if type-of($mar) != number or unitless($mar) == false {
+		@warn "Here is the bp-validator $mar warning."
+	}
+	@if type-of($col) != number or unitless($col) == false {
+		@warn "Here is the bp-validator $col warning."
+	}
+	@if type-of($gut) != number or unitless($gut) == false {
+		@warn "Here is the bp-validator $gut warning."
+	}
+	@if type-of($pad) != number or unitless($pad) == false {
+		@warn "Here is the bp-validator $pad warning."
+	}
+	@for $i from 1 through length($breakpoints) {
+		@if type-of(map-get(map-get($breakpoints, (nth(map-keys($breakpoints), $i))), cols)) != number or unitless(map-get(map-get($breakpoints, (nth(map-keys($breakpoints), $i))), cols)) == false {
+			@warn "Here is the bp-validator cols warning.";
+		}
+	}
+}
+
+// ----------------------------------------
 // width
 // ----------------------------------------
 // Josef uses the "width" function to calculate the width of a
