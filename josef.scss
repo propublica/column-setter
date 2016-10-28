@@ -106,7 +106,7 @@
 //
 // width: 48.82033%;
 
-$colspan-lesson: "A 'colspan' function call must include the unitless numeric column widths of both the target and its container, e.g. 'colspan(4,8)'. The target width can also be specified as 'p' (for padding width) or 'g' (for gutter width).";
+$colspan-lesson: "A 'colspan' function call must include the unitless numeric column widths of both the target and its container, e.g. 'colspan(4,8)'. The target width can also be specified as 'p' (for $pad width) or 'g' (for $gut width).";
 
 @function colspan($target:null,$container:null) {
 	@if $target
@@ -146,11 +146,11 @@ $colspan-lesson: "A 'colspan' function call must include the unitless numeric co
 	}
 	@if $target
 	and not $container {
-		@if type-of($target) == "number" {
+		@if (type-of($target) == "number" and unitless($target) == true) {
 			@warn invalid(colspan,$target) + missing(1) + $colspan-lesson;
 			@return false;
 		} @else {
-			@warn invalid(colspan,$target) + wrong-type("number",$target) + ", and " + missing(1) + $colspan-lesson;
+			@warn invalid(colspan,$target) + wrong-type("unitless number",$target) + ", and " + missing(1) + $colspan-lesson;
 			@return false;
 		}
 	}
