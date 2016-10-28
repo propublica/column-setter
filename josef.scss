@@ -106,42 +106,41 @@
 //
 // width: 48.82033%;
 
-$colspan-lesson: "A 'colspan' function call must include the numeric column widths of both the target and its container, e.g. 'colspan(4,8)'. The target width can also be specified as 'p' (for padding width) or 'g' (for gutter width).";
+$colspan-lesson: "A 'colspan' function call must include the unitless numeric column widths of both the target and its container, e.g. 'colspan(4,8)'. The target width can also be specified as 'p' (for padding width) or 'g' (for gutter width).";
 
 @function colspan($target:null,$container:null) {
 	@if $target
 	and $container {
 		@if $target == "m"
-		and type-of($container) == "number" {
+		and (type-of($container) == "number" and unitless($container) == true) {
 			@return percentage($mar / (width($container) + ($mar * 2)))
 		}
 		@if $target == "p"
-		and type-of($container) == "number" {
+		and (type-of($container) == "number" and unitless($container) == true) {
 			@return percentage($pad / width($container))
 		}
 		@if $target == "g"
-		and type-of($container) == "number" {
+		and (type-of($container) == "number" and unitless($container) == true) {
 			@return percentage($gut / width($container))
 		}
-		@if type-of($target) != "number"
-		and type-of($container) != "number"
+		@if (type-of($target) != "number" or unitless($target) == false)
+		and (type-of($container) != "number" or unitless($container) == false)
 		and $target != "m"
 		and $target != "p"
 		and $target != "g" {
-			@warn invalid("colspan",$target,$container) + wrong-type("number",$target,$container) + ". " + $colspan-lesson;
+			@warn invalid("colspan",$target,$container) + wrong-type("unitless number",$target,$container) + ". " + $colspan-lesson;
 			@return false;
 		}
-		@if type-of($target) != "number"
-		and type-of($container) == "number" {
-			@warn invalid("colspan",$target,$container) + wrong-type("number",$target) + ". " + $colspan-lesson;
+		@if (type-of($target) != "number" or unitless($target) == false)
+		and (type-of($container) == "number" and unitless($container) == true) {
+			@warn invalid("colspan",$target,$container) + wrong-type("unitless number",$target) + ". " + $colspan-lesson;
 			@return false;
 		}
-		@if type-of($target) == "number"
-		and type-of($container) != "number"
-		or ($target == "m" and type-of($container) != "number")
-		or ($target == "p" and type-of($container) != "number")
-		or ($target == "g" and type-of($container) != "number") {
-			@warn invalid("colspan",$target,$container) + wrong-type("number",$container) + ". " + $colspan-lesson;
+		@if ((type-of($target) == "number" and unitless($target) == true) and (type-of($container) != "number" or unitless($container) == false))
+		or ($target == "m" and (type-of($container) != "number" or unitless($container) == false))
+		or ($target == "p" and (type-of($container) != "number" or unitless($container) == false))
+		or ($target == "g" and (type-of($container) != "number" or unitless($container) == false)) {
+			@warn invalid("colspan",$target,$container) + wrong-type("unitless number",$container) + ". " + $colspan-lesson;
 			@return false;
 		}
 	}
