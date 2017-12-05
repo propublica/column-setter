@@ -46,6 +46,8 @@ Once your settings are in place, import `_columnsettings.scss` and `_columnsette
 
 ## Usage
 
+TK
+
 ### `grid()`
 
 `grid()` is a mixin used to establish the context for your column structure. The first (and only required) argument it takes is the class name of the layout’s container. If, for example, your layout is wrapped in a `div` with a class of `main-content`, you’ll invoke `grid()` like so:
@@ -109,13 +111,11 @@ And for more granular control, you can combine `colspan()` functions:
 
 ```
 .example {
-	margin-left: colspan( 6, 12 ) + colspan( g, 12 );
+  margin-left: colspan( 6, 12 ) + colspan( g, 12 );
 }
 ```
 
-### `breakpoint-min()`  
-`breakpoint-max()`  
-`breakpoint-range()`
+### `breakpoint-min()`, `breakpoint-max()`, `breakpoint-range()`
 
 TK
 
@@ -143,4 +143,4 @@ Which compiles to:
 
 TK
 
-* You’re not confined to the width the container! (e.g. `colspan( 12, 6 )`)
+* You’re not confined to the width of the container! (e.g. `colspan( 12, 6 )`)

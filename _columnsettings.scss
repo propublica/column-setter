@@ -1,0 +1,42 @@
+// ------------------------------------------------------------
+// COLUMN STRUCTURE PROPORTIONS
+// ------------------------------------------------------------
+// Customize your column structure’s proportions by editing the
+// values of the four variables below. Use only numbers for
+// values, no units (e.g. "10", not "10px"). IMPORTANT: Don't
+// delete any of these variables! For any you don't need to
+// use, just assign a value of 0.
+
+$mar: 68; // Margin width
+$col: 68; // Column width
+$gut: 26; // Gutter width
+$pad: 13; // Padding width
+
+$grid-color: red; // Grid overlay color
+
+// ------------------------------------------------------------
+// BREAKPOINTS
+// ------------------------------------------------------------
+// You can define as many (or as few) breakpoints as you like,
+// and name them whatever you want. Just be sure to:
+//
+// 1. use the syntax shown below,
+// 2. keep the breakpoints in order (smallest to largest), and
+// 3. include a column count ("cols") and minimum measurement
+//    ("min", which can be used for width and/or height) for
+//    each breakpoint. For breakpoints that are intended
+//    exclusively for height, the cols value can be set to 0.
+//
+// All breakpoints use the same proportions specified in the
+// variables above, but margin widths can be optionally 
+// customized for each breakpoint.
+
+$breakpoints: (
+	xs: (cols:  4, min:  0,   margin: $pad), // Includes optional custom margin
+	sm: (cols:  6, min: 30em, margin: $gut), // Includes optional custom margin
+	md: (cols:  8, min: 40em),
+	lg: (cols: 12, min: 50em),
+	xl: (cols: 16, min: 60em)
+);
+
+$max-width: 70em; // For no max-width, use $max-width: null;
