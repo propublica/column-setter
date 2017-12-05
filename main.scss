@@ -1,16 +1,18 @@
 // ------------------------------------------------------------
-// GRID PROPORTIONAL WIDTHS
+// COLUMN STRUCTURE PROPORTIONS
 // ------------------------------------------------------------
-// Use only numbers for values, no units (e.g. "10", not
-// "10px"). IMPORTANT: Don't delete any of these variables!
-// For any you don't need to use, just assign a value of 0.
+// Customize your column structure’s proportions by editing the
+// values of the four variables below. Use only numbers for
+// values, no units (e.g. "10", not "10px"). IMPORTANT: Don't
+// delete any of these variables! For any you don't need to
+// use, just assign a value of 0.
 
 $mar: 68; // Margin width
 $col: 68; // Column width
 $gut: 26; // Gutter width
 $pad: 13; // Padding width
 
-$grid-color: red; // Any color you want!
+$grid-color: red; // Grid overlay color
 
 // ------------------------------------------------------------
 // BREAKPOINTS
