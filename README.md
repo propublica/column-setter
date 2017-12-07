@@ -1,12 +1,12 @@
 # ColumnSetter
 
-ColumnSetter is a Sass tool that lets you easily set up a custom column structure for your website and build a layout that aligns to it. It uses just a few simple functions and mixins to generate percentage widths based on your settings.
+ColumnSetter is a [Sass](https://github.com/sass/sass) tool that lets you easily set up a custom responsive column structure for your website and build a float-based layout that aligns to it. It uses just a few simple functions and mixins to generate CSS percentage widths based on your settings, and it leaves the structure of your HTML entirely up to you.
 
 ## Setup
 
 Begin by saving `_columnsettings.scss` and `_columnsetter.scss` in the same directory as your main Sass file.
 
-In `_columnsettings.scss`, customize your column structure’s proportions by editing the values of the four variables at the top of the file. Use only numbers for values, no units (e.g. “10”, not “10px”). **Don’t delete any of these variables!** For any you don’t need to use, just assign a value of 0. Some sample values:
+In `_columnsettings.scss`, customize your column structure’s proportions by editing the values of the four variables at the top of the file. Use only numbers for values, no units (e.g. `10`, not `10px`). **Don’t delete any of these variables!** For any you don’t need to use, just assign a value of 0. Some sample values:
 
 ```
 $mar: 68; // Margin width
@@ -18,8 +18,8 @@ $pad: 13; // Padding width
 Next, customize the layout’s breakpoints by editing the `$breakpoints` map. You can define as many (or as few) breakpoints as you like, and name them whatever you want. Just be sure to:
 
 * use the syntax shown below,
-* keep the breakpoints in order (smallest to largest), and
-* include a name (e.g. “xl”), column count (“cols”, unitless) and minimum measurement (“min”, with units) for each breakpoint.
+* keep the breakpoints in order (smallest to largest)
+* include a name (e.g. `xl`), column count (`cols`, unitless) and minimum width (`min-width`, with units) for each breakpoint.
 
 All breakpoints use the same proportions specified in the variables above, but margin widths can be optionally customized for each breakpoint. Here’s a sample `$breakpoints` map with five breakpoints:
 
@@ -42,11 +42,9 @@ Once your settings are in place, import `_columnsettings.scss` and `_columnsette
 @import "_columnsetter.scss";
 ```
 
-**To get the most out of ColumnSetter, using it in conjunction with `* { box-sizing: border-box; }` is strongly recommended.**
-
 ## Usage
 
-TK
+**To get the most out of ColumnSetter, using it in conjunction with `* { box-sizing: border-box; }` is strongly recommended.** ColumnSetter is lean and mean, packing a lot of power into just one function and five optional mixins.
 
 ### `grid()`
 
@@ -95,7 +93,7 @@ Which compiles to something like this:
 }
 ```
 
-`colspan()` will also take the arguments `p` and `g`, for padding width and gutter width:
+`colspan()` will also take the arguments `p` (padding) and `g` (gutter):
 
 ```
 img.inset {
@@ -117,7 +115,21 @@ And for more granular control, you can combine `colspan()` functions:
 
 ### `breakpoint-min()`, `breakpoint-max()`, `breakpoint-range()`
 
-TK
+The three `breakpoint` mixins generate media queries based on the `$breakpoints` settings specified in `_columnsettings.scss`.
+
+```
+@include breakpoint-min( xs ) { ... }
+@include breakpoint-max( sm ) { ... }
+@include breakpoint-range( md, lg ) { ... }
+```
+
+The above compiles to something like this:
+
+```
+@media screen and (min-width: 0) { ... }
+@media screen and (max-width: 30em) { ... }
+@media screen and (min-width: 40em) and (max-width: 50em) { ... }
+```
 
 ### `full-width`
 
@@ -141,6 +153,13 @@ Which compiles to:
 
 ## Tips and tricks
 
-TK
-
-* You’re not confined to the width of the container! (e.g. `colspan( 12, 6 )`)
+* For the most part, ColumnSetter code will compile even if you make a mistake; the invalid code will simply be ignored. If something isn’t working the way you expected, look for a `WARNING` on the command line. ColumnSetter can recognize common mistakes and help you troubleshoot them.
+* Elements are not confined to the width of their containers. Want an 8-column element inside a 6-column container? No problem:
+```
+width: colspan( 8, 6 )
+```
+Want to center it? `colspan()` values can be made negative:
+```
+margin-left: -( colspan( 1, 8 ) + colspan( g, 8 ) );
+```
+* Each breakpoint is required to specify a column count, but those column counts don’t all have to be unique. You might want certain elements to change at a certain breakpoint without changing the rest of the layout. Just add another breakpoint in `_columnsettings.scss` with the same number of columns as the one before or after it.
