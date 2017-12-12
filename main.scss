@@ -2,39 +2,132 @@
 @import "columnsettings";
 @import "columnsetter";
 
-
-// STYLES
-
 * {
 	box-sizing: border-box;
 }
 
-@include grid(main,overlay);
+@include grid( main, overlay);  // Make elements with a class of 'main' the context
+                                // for the column structure, and include a translucent
+                                // column overlay as a guide
 
 h1 {
 	background-color: cyan;
 	margin-bottom: .5em;
-	@include full-width;
-}
-
-h2 {
-	@include breakpoint-range(xs,sm) {
-		color: red;
-	}
+	@include full-width;  // Make this the full width of the viewport
 }
 
 p {
 	background: #0f0;
 	margin-bottom: .5em;
-	@for $i from 1 through 12 {
-		&:nth-of-type(#{$i}) {
-			@each $bp, $value in $breakpoints {
-				@include breakpoint-min($bp) { width: colspan($i, bp-attribute($bp, cols)); }
-			}
-		}
+
+	&:nth-of-type(1) {
+		@include breakpoint-min( xs ) { width: colspan(  1,  4 ); }  // 1 column out of 4
+		@include breakpoint-min( sm ) { width: colspan(  1,  6 ); }  // 1 column out of 6
+		@include breakpoint-min( md ) { width: colspan(  1,  8 ); }  // 1 column out of 8
+		@include breakpoint-min( lg ) { width: colspan(  1, 12 ); }  // 1 column out of 12
+		@include breakpoint-min( xl ) { width: colspan(  1, 16 ); }  // 1 column out of 16
 	}
+
+	&:nth-of-type(2) {
+		@include breakpoint-min( xs ) { width: colspan(  2,  4 ); }  // 2 columns out of 4
+		@include breakpoint-min( sm ) { width: colspan(  2,  6 ); }  // 2 columns out of 6
+		@include breakpoint-min( md ) { width: colspan(  2,  8 ); }  // 2 columns out of 8
+		@include breakpoint-min( lg ) { width: colspan(  2, 12 ); }  // 2 columns out of 12
+		@include breakpoint-min( xl ) { width: colspan(  2, 16 ); }  // 2 columns out of 16
+	}
+
+	&:nth-of-type(3) {
+		@include breakpoint-min( xs ) { width: colspan(  3,  4 ); }  // 3 columns out of 4
+		@include breakpoint-min( sm ) { width: colspan(  3,  6 ); }  // 3 columns out of 6
+		@include breakpoint-min( md ) { width: colspan(  3,  8 ); }  // 3 columns out of 8
+		@include breakpoint-min( lg ) { width: colspan(  3, 12 ); }  // 3 columns out of 12
+		@include breakpoint-min( xl ) { width: colspan(  3, 16 ); }  // 3 columns out of 16
+	}
+
+	&:nth-of-type(4) {
+		@include breakpoint-min( xs ) { width: colspan(  4,  4 ); }  // 4 columns out of 4
+		@include breakpoint-min( sm ) { width: colspan(  4,  6 ); }  // 4 columns out of 6
+		@include breakpoint-min( md ) { width: colspan(  4,  8 ); }  // 4 columns out of 8
+		@include breakpoint-min( lg ) { width: colspan(  4, 12 ); }  // 4 columns out of 12
+		@include breakpoint-min( xl ) { width: colspan(  4, 16 ); }  // 4 columns out of 16
+	}
+
+	&:nth-of-type(5) {
+		@include breakpoint-min( xs ) { width: colspan(  5,  4 ); }  // 5 columns out of 4
+		@include breakpoint-min( sm ) { width: colspan(  5,  6 ); }  // 5 columns out of 6
+		@include breakpoint-min( md ) { width: colspan(  5,  8 ); }  // 5 columns out of 8
+		@include breakpoint-min( lg ) { width: colspan(  5, 12 ); }  // 5 columns out of 12
+		@include breakpoint-min( xl ) { width: colspan(  5, 16 ); }  // 5 columns out of 16
+	}
+
+	&:nth-of-type(6) {
+		@include breakpoint-min( xs ) { width: colspan(  6,  4 ); }  // 6 columns out of 4
+		@include breakpoint-min( sm ) { width: colspan(  6,  6 ); }  // 6 columns out of 6
+		@include breakpoint-min( md ) { width: colspan(  6,  8 ); }  // 6 columns out of 8
+		@include breakpoint-min( lg ) { width: colspan(  6, 12 ); }  // 6 columns out of 12
+		@include breakpoint-min( xl ) { width: colspan(  6, 16 ); }  // 6 columns out of 16
+	}
+
+	&:nth-of-type(7) {
+		@include breakpoint-min( xs ) { width: colspan(  7,  4 ); }  // 7 columns out of 4
+		@include breakpoint-min( sm ) { width: colspan(  7,  6 ); }  // 7 columns out of 6
+		@include breakpoint-min( md ) { width: colspan(  7,  8 ); }  // 7 columns out of 8
+		@include breakpoint-min( lg ) { width: colspan(  7, 12 ); }  // 7 columns out of 12
+		@include breakpoint-min( xl ) { width: colspan(  7, 16 ); }  // 7 columns out of 16
+	}
+
+	&:nth-of-type(8) {
+		@include breakpoint-min( xs ) { width: colspan(  8,  4 ); }  // 8 columns out of 4
+		@include breakpoint-min( sm ) { width: colspan(  8,  6 ); }  // 8 columns out of 6
+		@include breakpoint-min( md ) { width: colspan(  8,  8 ); }  // 8 columns out of 8
+		@include breakpoint-min( lg ) { width: colspan(  8, 12 ); }  // 8 columns out of 12
+		@include breakpoint-min( xl ) { width: colspan(  8, 16 ); }  // 8 columns out of 16
+	}
+
+	&:nth-of-type(9) {
+		@include breakpoint-min( xs ) { width: colspan(  9,  4 ); }  // 9 columns out of 4
+		@include breakpoint-min( sm ) { width: colspan(  9,  6 ); }  // 9 columns out of 6
+		@include breakpoint-min( md ) { width: colspan(  9,  8 ); }  // 9 columns out of 8
+		@include breakpoint-min( lg ) { width: colspan(  9, 12 ); }  // 9 columns out of 12
+		@include breakpoint-min( xl ) { width: colspan(  9, 16 ); }  // 9 columns out of 16
+	}
+
+	&:nth-of-type(10) {
+		@include breakpoint-min( xs ) { width: colspan( 10,  4 ); }  // 10 columns out of 4
+		@include breakpoint-min( sm ) { width: colspan( 10,  6 ); }  // 10 columns out of 6
+		@include breakpoint-min( md ) { width: colspan( 10,  8 ); }  // 10 columns out of 8
+		@include breakpoint-min( lg ) { width: colspan( 10, 12 ); }  // 10 columns out of 12
+		@include breakpoint-min( xl ) { width: colspan( 10, 16 ); }  // 10 columns out of 16
+	}
+
+	&:nth-of-type(11) {
+		@include breakpoint-min( xs ) { width: colspan( 11,  4 ); }  // 11 columns out of 4
+		@include breakpoint-min( sm ) { width: colspan( 11,  6 ); }  // 11 columns out of 6
+		@include breakpoint-min( md ) { width: colspan( 11,  8 ); }  // 11 columns out of 8
+		@include breakpoint-min( lg ) { width: colspan( 11, 12 ); }  // 11 columns out of 12
+		@include breakpoint-min( xl ) { width: colspan( 11, 16 ); }  // 11 columns out of 16
+	}
+
+	&:nth-of-type(12) {
+		@include breakpoint-min( xs ) { width: colspan( 12,  4 ); }  // 12 columns out of 4
+		@include breakpoint-min( sm ) { width: colspan( 12,  6 ); }  // 12 columns out of 6
+		@include breakpoint-min( md ) { width: colspan( 12,  8 ); }  // 12 columns out of 8
+		@include breakpoint-min( lg ) { width: colspan( 12, 12 ); }  // 12 columns out of 12
+		@include breakpoint-min( xl ) { width: colspan( 12, 16 ); }  // 12 columns out of 16
+	}
+
 }
 
-code {
-	font-family: monospace;
-}
+// More efficient version of the above:
+//
+// p {
+// 	background: #0f0;
+// 	margin-bottom: .5em;
+// 	@for $i from 1 through 12 {
+// 		&:nth-of-type(#{$i}) {
+// 			@each $bp, $value in $breakpoints {
+// 				@include breakpoint-min($bp) { width: colspan($i, bp-attribute($bp, cols)); }
+// 			}
+// 		}
+// 	}
+// }

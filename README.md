@@ -28,9 +28,9 @@ $pad: 13; // Padding width
 
 Next, customize the layout’s breakpoints by editing the `$breakpoints` map. You can define as many (or as few) breakpoints as you like, and name them whatever you want. Just be sure to:
 
-* use the syntax shown below,
+* use the syntax shown below
 * keep the breakpoints in order (smallest to largest)
-* include a name (e.g. `xl`), column count (`cols`, unitless) and minimum width (`min-width`, with units) for each breakpoint.
+* include a name (e.g. `xl`), column count (`cols`, unitless) and minimum width (`min-width`, with units) for each breakpoint
 
 All breakpoints use the same proportions specified in the variables above, but margin widths can be optionally customized for each breakpoint. Here’s a sample `$breakpoints` map with five breakpoints:
 
@@ -168,7 +168,7 @@ Which compiles to:
 * Elements are not confined to the width of their containers. Want an 8-column element inside a 6-column container? No problem:
 
     ```scss
-    width: colspan( 8, 6 )
+    width: colspan( 8, 6 );
     ```
 
    Want to center it? `colspan()` values can be made negative:

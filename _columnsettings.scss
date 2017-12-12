@@ -22,10 +22,9 @@ $grid-color: red; // Grid overlay color
 //
 // 1. use the syntax shown below,
 // 2. keep the breakpoints in order (smallest to largest), and
-// 3. include a column count ("cols") and minimum measurement
-//    ("min", which can be used for width and/or height) for
-//    each breakpoint. For breakpoints that are intended
-//    exclusively for height, the cols value can be set to 0.
+// 3. include a name (e.g. "xl"), column count ("cols",
+//    unitless), and minimum width ("min-width", with units)
+//    for each breakpoint
 //
 // All breakpoints use the same proportions specified in the
 // variables above, but margin widths can be optionally 

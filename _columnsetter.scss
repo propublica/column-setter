@@ -6,7 +6,7 @@
 // missing
 // optional
 // ----------------------------------------
-// Josef uses the "invalid", "wrong-type", "missing", and
+// ColumnSetter uses the "invalid", "wrong-type", "missing", and
 // "optional" functions to build error messages.
 
 @function invalid($call, $arg2:null, $arg3:null, $arg4:null) {
@@ -53,7 +53,7 @@
 // ----------------------------------------
 // bp-attribute
 // ----------------------------------------
-// Josef uses the "bp-attribute" function to retrieve the
+// ColumnSetter uses the "bp-attribute" function to retrieve the
 // values of breakpoint attributes (such as "cols" and "min",
 // found in the $breakpoints map in "main.scss").
 //
@@ -73,7 +73,7 @@
 // ----------------------------------------
 // bp-validator (UNFINISHED)
 // ----------------------------------------
-// Josef uses the "bp-validator" function to ensure that there
+// ColumnSetter uses the "bp-validator" function to ensure that there
 // are no errors in the $breakpoints map in "main.scss".
 
 @function bp-validator() {
@@ -99,7 +99,7 @@
 // ----------------------------------------
 // width
 // ----------------------------------------
-// Josef uses the "width" function to calculate the width of a
+// ColumnSetter uses the "width" function to calculate the width of a
 // span of columns, derived from the proportional width
 // variables whose customizable values are defined at the top
 // of "main.scss".
@@ -209,11 +209,9 @@ $colspan-lesson: "A 'colspan' function call must include the unitless numeric co
 // breakpoint-range
 // ----------------------------------------
 // The three flavors of the "breakpoint" mixin allow the user
-// to generate width- and height-based media queries using the
-// breakpoint names and values defined in the $breakpoints map
-// in main.scss. They generate min-width and max-width by
-// default, but can generate min-height and max-height instead
-// by including the optional "height" argument.
+// to generate width-based media queries using the breakpoint
+// names and values defined in the $breakpoints map in
+// main.scss.
 
 $valid-bp-names: "Current valid breakpoint names: " + map-keys($breakpoints) + ".";
 $bp-min-lesson: "A 'breakpoint-min' mixin call must contain a valid breakpoint name, e.g. 'breakpoint-min(small)'. " + $valid-bp-names;
@@ -226,83 +224,41 @@ $bp-range-lesson: "A 'breakpoint-range' mixin call must contain valid minimum an
 //
 // @media screen and (min-width: 50em) { ... }
 
-@mixin breakpoint-min($bp:null, $height:null) {
+@mixin breakpoint-min($bp:null) {
 	$all-is-well: true;
 	@if $bp {
-		@if $height {
-			@if $height != "height"
-			and $height != null {
-				$all-is-well: false;
-				@if not map-has-key($breakpoints, $bp) {
-					@warn invalid("breakpoint-min",$bp,$height) + wrong-type("valid breakpoint name",$bp) + ", and " +  optional("second",$height,"height") + $bp-min-lesson;
-				} @else {
-					@warn invalid("breakpoint-min",$bp,$height) + optional("second",$height,"height");
-				}
-			}
-			@if ($height == "height" or $height == null)
-			and not map-has-key($breakpoints, $bp) {
-				$all-is-well: false;
-				@warn invalid("breakpoint-min",$bp,$height) + wrong-type("valid breakpoint name",$bp) + ". " + $bp-min-lesson;
-			}
-		} @else {
-			@if not map-has-key($breakpoints, $bp) {
-				$all-is-well: false;
-				@warn invalid("breakpoint-min",$bp) + wrong-type("valid breakpoint name",$bp) + ". " + $bp-min-lesson;
-			}
+		@if not map-has-key($breakpoints, $bp) {
+			$all-is-well: false;
+			@warn invalid("breakpoint-min",$bp) + wrong-type("valid breakpoint name",$bp) + ". " + $bp-min-lesson;
 		}
 	} @else {
 		$all-is-well: false;
 		@warn invalid("breakpoint-min") + missing(1) + $bp-min-lesson;
 	}
 	@if $all-is-well == true {
-		@if $height {
-			@media screen and (min-height: bp-attribute($bp, min)) { @content; }
-		} @else {
-			@media screen and (min-width: bp-attribute($bp, min)) { @content; }
-		}
+		@media screen and (min-width: bp-attribute($bp, min)) { @content; }
 	}
 }
 
-// @include breakpoint-max(lg, height) { ... }
+// @include breakpoint-max(lg) { ... }
 //
 // ...compiles to something like this:
 //
-// @media screen and (max-height: 50em) { ... }
+// @media screen and (max-width: 50em) { ... }
 
-@mixin breakpoint-max($bp:null, $height:null) {
+@mixin breakpoint-max($bp:null) {
 	$all-is-well: true;
 	@if $bp {
-		@if $height {
-			@if $height != "height"
-			and $height != null {
-				$all-is-well: false;
-				@if not map-has-key($breakpoints, $bp) {
-					@warn invalid("breakpoint-max",$bp,$height) + wrong-type("valid breakpoint name",$bp) + ", and " +  optional("second",$height,"height") + $bp-min-lesson;
-				} @else {
-					@warn invalid("breakpoint-max",$bp,$height) + optional("second",$height,"height");
-				}
-			}
-			@if ($height == "height" or $height == null)
-			and not map-has-key($breakpoints, $bp) {
-				$all-is-well: false;
-				@warn invalid("breakpoint-max",$bp,$height) + wrong-type("valid breakpoint name",$bp) + ". " + $bp-min-lesson;
-			}
-		} @else {
-			@if not map-has-key($breakpoints, $bp) {
-				$all-is-well: false;
-				@warn invalid("breakpoint-max",$bp) + wrong-type("valid breakpoint name",$bp) + ". " + $bp-min-lesson;
-			}
+		@if not map-has-key($breakpoints, $bp) {
+			$all-is-well: false;
+			@warn invalid("breakpoint-max",$bp) + wrong-type("valid breakpoint name",$bp) + ". " + $bp-min-lesson;
 		}
 	} @else {
 		$all-is-well: false;
 		@warn invalid("breakpoint-max") + missing(1) + $bp-min-lesson;
 	}
 	@if $all-is-well == true {
-		@if $height {
-			@media screen and (max-height: bp-attribute($bp, min)) { @content; }
-		} @else {
-			@media screen and (max-width: bp-attribute($bp, min)) { @content; }
-		}
+		@media screen and (max-width: bp-attribute($bp, min)) { @content; }
 	}
 }
 
@@ -312,66 +268,24 @@ $bp-range-lesson: "A 'breakpoint-range' mixin call must contain valid minimum an
 //
 // @media screen and (min-width: 40em) and (max-width: 50em) { ... }
 
-@mixin breakpoint-range($bp-min:null, $bp-max:null, $height:null) {
+@mixin breakpoint-range($bp-min:null, $bp-max:null) {
 	$all-is-well: true;
 	@if $bp-min
 	and $bp-max {
-		@if $height {
-			@if $height != "height"
-			and $height != null {
-				@if not map-has-key($breakpoints, $bp-min)
-				and not map-has-key($breakpoints, $bp-max) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-range",$bp-min,$bp-max,$height) + wrong-type("valid breakpoint name",$bp-min,$bp-max) + ", and " + optional("third",$height,"height") + $bp-range-lesson;
-				}
-				@if not map-has-key($breakpoints, $bp-min)
-				and map-has-key($breakpoints, $bp-max) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-range",$bp-min,$bp-max,$height) + wrong-type("valid breakpoint name",$bp-min) + ", and " + optional("third",$height,"height") + $bp-range-lesson;
-				}
-				@if map-has-key($breakpoints, $bp-min)
-				and not map-has-key($breakpoints, $bp-max) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-range",$bp-min,$bp-max,$height) + wrong-type("valid breakpoint name",$bp-max) + ", and " + optional("third",$height,"height") + $bp-range-lesson;
-				}
-				@if map-has-key($breakpoints, $bp-min)
-				and map-has-key($breakpoints, $bp-max) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-range",$bp-min,$bp-max,$height) + optional("third",$height,"height");
-				}			
-			} @else {
-				@if not map-has-key($breakpoints, $bp-min)
-				and not map-has-key($breakpoints, $bp-max) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-range",$bp-min,$bp-max,$height) + wrong-type("valid breakpoint name",$bp-min,$bp-max) + ". " + $bp-range-lesson;
-				}
-				@if not map-has-key($breakpoints, $bp-min)
-				and map-has-key($breakpoints, $bp-max) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-range",$bp-min,$bp-max,$height) + wrong-type("valid breakpoint name",$bp-min) + ". " + $bp-range-lesson;
-				}
-				@if map-has-key($breakpoints, $bp-min)
-				and not map-has-key($breakpoints, $bp-max) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-range",$bp-min,$bp-max,$height) + wrong-type("valid breakpoint name",$bp-max) + ". " + $bp-range-lesson;
-				}
-			}
-		} @else {
-			@if not map-has-key($breakpoints, $bp-min)
-			and not map-has-key($breakpoints, $bp-max) {
-				$all-is-well: false;
-				@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-min,$bp-max) + ". " + $bp-range-lesson;
-			}
-			@if not map-has-key($breakpoints, $bp-min)
-			and map-has-key($breakpoints, $bp-max) {
-				$all-is-well: false;
-				@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-min) + ". " + $bp-range-lesson;
-			}
-			@if map-has-key($breakpoints, $bp-min)
-			and not map-has-key($breakpoints, $bp-max) {
-				$all-is-well: false;
-				@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-max) + ". " + $bp-range-lesson;
-			}
+		@if not map-has-key($breakpoints, $bp-min)
+		and not map-has-key($breakpoints, $bp-max) {
+			$all-is-well: false;
+			@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-min,$bp-max) + ". " + $bp-range-lesson;
+		}
+		@if not map-has-key($breakpoints, $bp-min)
+		and map-has-key($breakpoints, $bp-max) {
+			$all-is-well: false;
+			@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-min) + ". " + $bp-range-lesson;
+		}
+		@if map-has-key($breakpoints, $bp-min)
+		and not map-has-key($breakpoints, $bp-max) {
+			$all-is-well: false;
+			@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-max) + ". " + $bp-range-lesson;
 		}
 	}
 	@if $bp-min
@@ -388,11 +302,7 @@ $bp-range-lesson: "A 'breakpoint-range' mixin call must contain valid minimum an
 		@warn invalid("breakpoint-range") + missing(2) + $bp-range-lesson;
 	}
 	@if $all-is-well == true {
-		@if $height {
-			@media screen and (min-height: bp-attribute($bp-min, min)) and (max-height: bp-attribute($bp-max, min)) { @content }
-		} @else {
-			@media screen and (min-width: bp-attribute($bp-min, min)) and (max-width: bp-attribute($bp-max, min)) { @content }
-		}
+		@media screen and (min-width: bp-attribute($bp-min, min)) and (max-width: bp-attribute($bp-max, min)) { @content }
 	}
 }
 
