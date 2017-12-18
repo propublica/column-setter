@@ -7,10 +7,10 @@
 // delete any of these variables! For any you don't need to
 // use, just assign a value of 0.
 
-$mar: 68; // Margin width
-$col: 68; // Column width
-$gut: 26; // Gutter width
-$pad: 13; // Padding width
+$mar: 4; // Margin width
+$col: 4; // Column width
+$gut: 2; // Gutter width
+$pad: 1; // Padding width
 
 $grid-color: red; // Grid overlay color
 
@@ -31,11 +31,11 @@ $grid-color: red; // Grid overlay color
 // customized for each breakpoint.
 
 $breakpoints: (
-	xs: (cols:  4, min:  0,   margin: $pad), // Includes optional custom margin
-	sm: (cols:  6, min: 30em, margin: $gut), // Includes optional custom margin
-	md: (cols:  8, min: 40em),
-	lg: (cols: 12, min: 50em),
-	xl: (cols: 16, min: 60em)
+	xs: (cols:  4, min-width:  0,   margin: $pad), // Includes optional custom margin
+	sm: (cols:  6, min-width: 30em, margin: $gut), // Includes optional custom margin
+	md: (cols:  8, min-width: 40em),
+	lg: (cols: 12, min-width: 50em),
+	xl: (cols: 16, min-width: 60em)
 );
 
 $max-width: 70em; // For no max-width, use $max-width: null;

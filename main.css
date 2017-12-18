@@ -53,20 +53,20 @@ table {
   position: relative; }
   @media screen and (min-width: 0) {
     .main {
-      margin: 0 3.38638%; } }
+      margin: 0 2.8169014085%; } }
   @media screen and (min-width: 30em) {
     .main {
-      margin: 0 4.36194%; } }
+      margin: 0 4.4247787611%; } }
   @media screen and (min-width: 40em) {
     .main {
-      margin: 0 7.88863%; } }
+      margin: 0 7.4074074074%; } }
   @media screen and (min-width: 50em) {
     .main {
-      margin: 0 5.49273%; } }
+      margin: 0 5.1282051282%; } }
   @media screen and (min-width: 60em) {
     .main {
-      margin: 0 4.21314%; } }
-  @media screen and (min-width: 76.44114em) {
+      margin: 0 3.9215686275%; } }
+  @media screen and (min-width: 75.9574468085em) {
     .main {
       margin: 0 auto; } }
   .main:before {
@@ -80,209 +80,209 @@ table {
     z-index: 100; }
     @media screen and (min-width: 0) {
       .main:before {
-        background-image: repeating-linear-gradient(to right, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2) 3.71429%, rgba(255, 0, 0, 0.1) 3.71429%, rgba(255, 0, 0, 0.1) 15.71429%, rgba(255, 0, 0, 0.2) 15.71429%, rgba(255, 0, 0, 0.2) 19.42857%, rgba(255, 0, 0, 0) 19.42857%, rgba(255, 0, 0, 0) 26.85714%); } }
+        background-image: repeating-linear-gradient(to right, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2) 4.5454545455%, rgba(255, 0, 0, 0.1) 4.5454545455%, rgba(255, 0, 0, 0.1) 13.6363636364%, rgba(255, 0, 0, 0.2) 13.6363636364%, rgba(255, 0, 0, 0.2) 18.1818181818%, rgba(255, 0, 0, 0) 18.1818181818%, rgba(255, 0, 0, 0) 27.2727272727%); } }
     @media screen and (min-width: 30em) {
       .main:before {
-        background-image: repeating-linear-gradient(to right, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2) 2.41636%, rgba(255, 0, 0, 0.1) 2.41636%, rgba(255, 0, 0, 0.1) 10.22305%, rgba(255, 0, 0, 0.2) 10.22305%, rgba(255, 0, 0, 0.2) 12.63941%, rgba(255, 0, 0, 0) 12.63941%, rgba(255, 0, 0, 0) 17.47212%); } }
+        background-image: repeating-linear-gradient(to right, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2) 2.9411764706%, rgba(255, 0, 0, 0.1) 2.9411764706%, rgba(255, 0, 0, 0.1) 8.8235294118%, rgba(255, 0, 0, 0.2) 8.8235294118%, rgba(255, 0, 0, 0.2) 11.7647058824%, rgba(255, 0, 0, 0) 11.7647058824%, rgba(255, 0, 0, 0) 17.6470588235%); } }
     @media screen and (min-width: 40em) {
       .main:before {
-        background-image: repeating-linear-gradient(to right, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2) 1.79063%, rgba(255, 0, 0, 0.1) 1.79063%, rgba(255, 0, 0, 0.1) 7.57576%, rgba(255, 0, 0, 0.2) 7.57576%, rgba(255, 0, 0, 0.2) 9.36639%, rgba(255, 0, 0, 0) 9.36639%, rgba(255, 0, 0, 0) 12.94766%); } }
+        background-image: repeating-linear-gradient(to right, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2) 2.1739130435%, rgba(255, 0, 0, 0.1) 2.1739130435%, rgba(255, 0, 0, 0.1) 6.5217391304%, rgba(255, 0, 0, 0.2) 6.5217391304%, rgba(255, 0, 0, 0.2) 8.6956521739%, rgba(255, 0, 0, 0) 8.6956521739%, rgba(255, 0, 0, 0) 13.0434782609%); } }
     @media screen and (min-width: 50em) {
       .main:before {
-        background-image: repeating-linear-gradient(to right, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2) 1.17967%, rgba(255, 0, 0, 0.1) 1.17967%, rgba(255, 0, 0, 0.1) 4.99093%, rgba(255, 0, 0, 0.2) 4.99093%, rgba(255, 0, 0, 0.2) 6.1706%, rgba(255, 0, 0, 0) 6.1706%, rgba(255, 0, 0, 0) 8.52995%); } }
+        background-image: repeating-linear-gradient(to right, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2) 1.4285714286%, rgba(255, 0, 0, 0.1) 1.4285714286%, rgba(255, 0, 0, 0.1) 4.2857142857%, rgba(255, 0, 0, 0.2) 4.2857142857%, rgba(255, 0, 0, 0.2) 5.7142857143%, rgba(255, 0, 0, 0) 5.7142857143%, rgba(255, 0, 0, 0) 8.5714285714%); } }
     @media screen and (min-width: 60em) {
       .main:before {
-        background-image: repeating-linear-gradient(to right, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2) 0.87957%, rgba(255, 0, 0, 0.1) 0.87957%, rgba(255, 0, 0, 0.1) 3.72124%, rgba(255, 0, 0, 0.2) 3.72124%, rgba(255, 0, 0, 0.2) 4.60081%, rgba(255, 0, 0, 0) 4.60081%, rgba(255, 0, 0, 0) 6.35995%); } }
+        background-image: repeating-linear-gradient(to right, rgba(255, 0, 0, 0.2), rgba(255, 0, 0, 0.2) 1.0638297872%, rgba(255, 0, 0, 0.1) 1.0638297872%, rgba(255, 0, 0, 0.1) 3.1914893617%, rgba(255, 0, 0, 0.2) 3.1914893617%, rgba(255, 0, 0, 0.2) 4.2553191489%, rgba(255, 0, 0, 0) 4.2553191489%, rgba(255, 0, 0, 0) 6.3829787234%); } }
 
 h1 {
   background-color: cyan;
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
   width: auto;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%); }
 
 p {
   background: #0f0;
-  margin-bottom: .5em; }
+  margin-bottom: 0.5em; }
   @media screen and (min-width: 0) {
     p:nth-of-type(1) {
-      width: 19.42857%; } }
+      width: 18.1818181818%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(1) {
-      width: 12.63941%; } }
+      width: 11.7647058824%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(1) {
-      width: 9.36639%; } }
+      width: 8.6956521739%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(1) {
-      width: 6.1706%; } }
+      width: 5.7142857143%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(1) {
-      width: 4.60081%; } }
+      width: 4.2553191489%; } }
   @media screen and (min-width: 0) {
     p:nth-of-type(2) {
-      width: 46.28571%; } }
+      width: 45.4545454545%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(2) {
-      width: 30.11152%; } }
+      width: 29.4117647059%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(2) {
-      width: 22.31405%; } }
+      width: 21.7391304348%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(2) {
-      width: 14.70054%; } }
+      width: 14.2857142857%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(2) {
-      width: 10.96076%; } }
+      width: 10.6382978723%; } }
   @media screen and (min-width: 0) {
     p:nth-of-type(3) {
-      width: 73.14286%; } }
+      width: 72.7272727273%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(3) {
-      width: 47.58364%; } }
+      width: 47.0588235294%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(3) {
-      width: 35.26171%; } }
+      width: 34.7826086957%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(3) {
-      width: 23.23049%; } }
+      width: 22.8571428571%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(3) {
-      width: 17.3207%; } }
+      width: 17.0212765957%; } }
   @media screen and (min-width: 0) {
     p:nth-of-type(4) {
       width: 100%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(4) {
-      width: 65.05576%; } }
+      width: 64.7058823529%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(4) {
-      width: 48.20937%; } }
+      width: 47.8260869565%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(4) {
-      width: 31.76044%; } }
+      width: 31.4285714286%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(4) {
-      width: 23.68065%; } }
+      width: 23.4042553191%; } }
   @media screen and (min-width: 0) {
     p:nth-of-type(5) {
-      width: 126.85714%; } }
+      width: 127.2727272727%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(5) {
-      width: 82.52788%; } }
+      width: 82.3529411765%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(5) {
-      width: 61.15702%; } }
+      width: 60.8695652174%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(5) {
-      width: 40.29038%; } }
+      width: 40%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(5) {
-      width: 30.0406%; } }
+      width: 29.7872340426%; } }
   @media screen and (min-width: 0) {
     p:nth-of-type(6) {
-      width: 153.71429%; } }
+      width: 154.5454545455%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(6) {
       width: 100%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(6) {
-      width: 74.10468%; } }
+      width: 73.9130434783%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(6) {
-      width: 48.82033%; } }
+      width: 48.5714285714%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(6) {
-      width: 36.40054%; } }
+      width: 36.170212766%; } }
   @media screen and (min-width: 0) {
     p:nth-of-type(7) {
-      width: 180.57143%; } }
+      width: 181.8181818182%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(7) {
-      width: 117.47212%; } }
+      width: 117.6470588235%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(7) {
-      width: 87.05234%; } }
+      width: 86.9565217391%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(7) {
-      width: 57.35027%; } }
+      width: 57.1428571429%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(7) {
-      width: 42.76049%; } }
+      width: 42.5531914894%; } }
   @media screen and (min-width: 0) {
     p:nth-of-type(8) {
-      width: 207.42857%; } }
+      width: 209.0909090909%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(8) {
-      width: 134.94424%; } }
+      width: 135.2941176471%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(8) {
       width: 100%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(8) {
-      width: 65.88022%; } }
+      width: 65.7142857143%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(8) {
-      width: 49.12043%; } }
+      width: 48.9361702128%; } }
   @media screen and (min-width: 0) {
     p:nth-of-type(9) {
-      width: 234.28571%; } }
+      width: 236.3636363636%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(9) {
-      width: 152.41636%; } }
+      width: 152.9411764706%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(9) {
-      width: 112.94766%; } }
+      width: 113.0434782609%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(9) {
-      width: 74.41016%; } }
+      width: 74.2857142857%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(9) {
-      width: 55.48038%; } }
+      width: 55.3191489362%; } }
   @media screen and (min-width: 0) {
     p:nth-of-type(10) {
-      width: 261.14286%; } }
+      width: 263.6363636364%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(10) {
-      width: 169.88848%; } }
+      width: 170.5882352941%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(10) {
-      width: 125.89532%; } }
+      width: 126.0869565217%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(10) {
-      width: 82.94011%; } }
+      width: 82.8571428571%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(10) {
-      width: 61.84032%; } }
+      width: 61.7021276596%; } }
   @media screen and (min-width: 0) {
     p:nth-of-type(11) {
-      width: 288%; } }
+      width: 290.9090909091%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(11) {
-      width: 187.36059%; } }
+      width: 188.2352941176%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(11) {
-      width: 138.84298%; } }
+      width: 139.1304347826%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(11) {
-      width: 91.47005%; } }
+      width: 91.4285714286%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(11) {
-      width: 68.20027%; } }
+      width: 68.085106383%; } }
   @media screen and (min-width: 0) {
     p:nth-of-type(12) {
-      width: 314.85714%; } }
+      width: 318.1818181818%; } }
   @media screen and (min-width: 30em) {
     p:nth-of-type(12) {
-      width: 204.83271%; } }
+      width: 205.8823529412%; } }
   @media screen and (min-width: 40em) {
     p:nth-of-type(12) {
-      width: 151.79063%; } }
+      width: 152.1739130435%; } }
   @media screen and (min-width: 50em) {
     p:nth-of-type(12) {
       width: 100%; } }
   @media screen and (min-width: 60em) {
     p:nth-of-type(12) {
-      width: 74.56022%; } }
+      width: 74.4680851064%; } }
 
 /*# sourceMappingURL=main.css.map */

@@ -12,13 +12,13 @@
 
 h1 {
 	background-color: cyan;
-	margin-bottom: .5em;
+	margin-bottom: 0.5em;
 	@include full-width;  // Make this the full width of the viewport
 }
 
 p {
 	background: #0f0;
-	margin-bottom: .5em;
+	margin-bottom: 0.5em;
 
 	&:nth-of-type(1) {
 		@include breakpoint-min( xs ) { width: colspan(  1,  4 ); }  // 1 column out of 4
@@ -122,7 +122,7 @@ p {
 //
 // p {
 // 	background: #0f0;
-// 	margin-bottom: .5em;
+// 	margin-bottom: 0.5em;
 // 	@for $i from 1 through 12 {
 // 		&:nth-of-type(#{$i}) {
 // 			@each $bp, $value in $breakpoints {

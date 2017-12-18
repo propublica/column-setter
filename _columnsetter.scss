@@ -236,7 +236,7 @@ $bp-range-lesson: "A 'breakpoint-range' mixin call must contain valid minimum an
 		@warn invalid("breakpoint-min") + missing(1) + $bp-min-lesson;
 	}
 	@if $all-is-well == true {
-		@media screen and (min-width: bp-attribute($bp, min)) { @content; }
+		@media screen and (min-width: bp-attribute($bp, min-width)) { @content; }
 	}
 }
 
@@ -258,7 +258,7 @@ $bp-range-lesson: "A 'breakpoint-range' mixin call must contain valid minimum an
 		@warn invalid("breakpoint-max") + missing(1) + $bp-min-lesson;
 	}
 	@if $all-is-well == true {
-		@media screen and (max-width: bp-attribute($bp, min)) { @content; }
+		@media screen and (max-width: bp-attribute($bp, min-width)) { @content; }
 	}
 }
 

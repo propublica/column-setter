@@ -1,8 +1,8 @@
 # ColumnSetter
 
-ColumnSetter is a [Sass](https://github.com/sass/sass) tool that lets you easily set up a custom responsive column structure for your website and build a float-based layout that aligns to it. It uses just a few simple functions and mixins to generate CSS percentage widths based on your settings, and it leaves the structure of your HTML entirely up to you.
+ColumnSetter is a [Sass](https://github.com/sass/sass) tool that lets you easily set up a custom responsive column structure for your website and build a float-based layout that aligns to it. It uses one simple function and a small handful of optional mixins to generate CSS percentage widths based on your settings. And for the most part, it leaves the structure of your HTML and CSS entirely up to you.
 
-## Contents
+## Table of Contents
 
 * **[Setup](#setup)**
 * **[Implementation](#implementation)**
@@ -17,30 +17,34 @@ ColumnSetter is a [Sass](https://github.com/sass/sass) tool that lets you easily
 
 Begin by saving `_columnsettings.scss` and `_columnsetter.scss` in the same directory as your main Sass file.
 
-In `_columnsettings.scss`, customize your column structure’s proportions by editing the values of the four variables at the top of the file. Use only numbers for values, no units (e.g. `10`, not `10px`). **Don’t delete any of these variables!** For any you don’t need to use, just assign a value of 0. Some sample values:
+In `_columnsettings.scss`, customize your column structure’s proportions by editing the values of the four variables at the top of the file (`$mar`, `$col`, `$gut`, `$pad`). These establish the spatial relationship between the column structure’s various components. In the example below, gutters are twice the width of the padding, columns are twice the width of gutters, and margins are the same width as columns.
+
+Since they represent flexible proportions rather than specific measurements, use only numbers for values, no units (e.g. `10`, not `10px`), and **don’t delete any of these variables.** For any you don’t need to use, just assign a value of 0.
 
 ```scss
-$mar: 68; // Margin width
-$col: 68; // Column width
-$gut: 26; // Gutter width
-$pad: 13; // Padding width
+$mar: 4; // Margin width
+$col: 4; // Column width
+$gut: 2; // Gutter width
+$pad: 1; // Padding width
 ```
+
+![Diagram of ColumnSetter proportions](columnsetter-diagram.svg?raw=true)
 
 Next, customize the layout’s breakpoints by editing the `$breakpoints` map. You can define as many (or as few) breakpoints as you like, and name them whatever you want. Just be sure to:
 
 * use the syntax shown below
 * keep the breakpoints in order (smallest to largest)
-* include a name (e.g. `xl`), column count (`cols`, unitless) and minimum width (`min-width`, with units) for each breakpoint
+* include a name (e.g. `xl`), column count (`cols`, unitless) and minimum width (`min-width`, with units, such as `em` or `px`) for each breakpoint
 
 All breakpoints use the same proportions specified in the variables above, but margin widths can be optionally customized for each breakpoint. Here’s a sample `$breakpoints` map with five breakpoints:
 
 ```scss
 $breakpoints: (
-  xs: ( cols:  4, min:  0,   margin: $pad ), // Includes optional custom margin
-  sm: ( cols:  6, min: 30em, margin: $gut ), // Another optional custom margin
-  md: ( cols:  8, min: 40em ),
-  lg: ( cols: 12, min: 50em ),
-  xl: ( cols: 16, min: 60em )
+  xs: ( cols:  4, min-width:  0,   margin: $pad ), // Includes optional custom margin
+  sm: ( cols:  6, min-width: 30em, margin: $gut ), // Another optional custom margin
+  md: ( cols:  8, min-width: 40em ),
+  lg: ( cols: 12, min-width: 50em ),
+  xl: ( cols: 16, min-width: 60em )
 );
 ```
 
@@ -67,9 +71,9 @@ Once your settings are in place, import `_columnsettings.scss` and `_columnsette
 }
 ```
 
-Which compiles to something like this:
+The above code compiles to something like this:
 
-```scss
+```css
 .example {
   width: 48.82033%;
 }
@@ -105,7 +109,7 @@ And for more granular control, you can combine `colspan()` functions:
 
 This establishes the container’s horizontal margins for each of the breakpoints you specified in `_columnsettings.scss`, and it compiles to something like this:
 
-```scss
+```css
 @media screen and (min-width: 0) {
   .content {
     margin: 0 3.38638%;
@@ -134,9 +138,9 @@ The three `breakpoint` mixins generate media queries based on the `$breakpoints`
 @include breakpoint-range( md, lg ) { ... }
 ```
 
-The above compiles to something like this:
+The above code compiles to something like this:
 
-```scss
+```css
 @media screen and (min-width: 0) { ... }
 @media screen and (max-width: 30em) { ... }
 @media screen and (min-width: 40em) and (max-width: 50em) { ... }
@@ -152,9 +156,9 @@ The above compiles to something like this:
 }
 ```
 
-Which compiles to:
+The above code compiles to:
 
-```scss
+```css
 .example {
   width: auto;
   margin-left: calc(-50vw + 50%);
@@ -165,6 +169,11 @@ Which compiles to:
 ## Tips and tricks
 
 * For the most part, ColumnSetter code will compile even if you make a mistake; the invalid code will simply be ignored. If something isn’t working the way you expected, look for a `WARNING` on the command line. ColumnSetter can recognize common mistakes and help you troubleshoot them.
+
+    ```sh
+    WARNING: 'breakpoint-min(Gerald)' is invalid because 'Gerald' is not a valid breakpoint name. A 'breakpoint-min' mixin call must contain a valid breakpoint name, e.g. 'breakpoint-min(small)'. Current valid breakpoint names: xs, sm, md, lg, xl.
+    ```
+
 * Elements are not confined to the width of their containers. Want an 8-column element inside a 6-column container? No problem:
 
     ```scss
@@ -178,3 +187,7 @@ Which compiles to:
     ```
 
 * Each breakpoint is required to specify a column count, but those column counts don’t all have to be unique. You might want certain elements to change at a certain breakpoint without changing the rest of the layout. Just add another breakpoint in `_columnsettings.scss` with the same number of columns as the one before or after it.
+
+    ```scss
+
+    ```
