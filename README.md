@@ -1,6 +1,6 @@
-# ColumnSetter
+# Column Setter
 
-ColumnSetter is a [Sass](https://github.com/sass/sass) tool that lets you easily set up a custom responsive column structure for your website and build a float-based layout that aligns to it. It uses one simple function and a small handful of optional mixins to generate CSS percentage widths based on your settings. And for the most part, it leaves the structure of your HTML and CSS entirely up to you.
+Column Setter is a [Sass](https://github.com/sass/sass) tool that lets you easily set up a custom responsive grid for your website and build a float- or flexbox-based layout that aligns to it. It uses one simple function and a small handful of optional mixins to generate CSS percentage widths based on your settings. And for the most part, it leaves the structure of your HTML and CSS entirely up to you.
 
 ## Table of Contents
 
@@ -15,9 +15,9 @@ ColumnSetter is a [Sass](https://github.com/sass/sass) tool that lets you easily
 
 ## Setup
 
-Begin by saving `_columnsettings.scss` and `_columnsetter.scss` in the same directory as your main Sass file.
+Begin by saving `_column-settings.scss` and `_column-setter.scss` in the same directory as your main Sass file.
 
-In `_columnsettings.scss`, customize your column structure’s proportions by editing the values of the four variables at the top of the file (`$mar`, `$col`, `$gut`, `$pad`). These establish the spatial relationship between the column structure’s various components. In the example below, gutters are twice the width of the padding, columns are twice the width of gutters, and margins are the same width as columns.
+In `_column-settings.scss`, customize your grid’s proportions by editing the values of the four variables at the top of the file (`$mar`, `$col`, `$gut`, `$pad`). These establish the spatial relationship between the grid’s various components. In the example below, gutters are twice the width of the padding, columns are twice the width of gutters, and margins are the same width as columns.
 
 Since they represent flexible proportions rather than specific measurements, use only numbers for values, no units (e.g. `10`, not `10px`), and **don’t delete any of these variables.** For any you don’t need to use, just assign a value of 0.
 
@@ -27,8 +27,6 @@ $col: 4; // Column width
 $gut: 2; // Gutter width
 $pad: 1; // Padding width
 ```
-
-![Diagram of ColumnSetter proportions](columnsetter-diagram.svg?raw=true)
 
 Next, customize the layout’s breakpoints by editing the `$breakpoints` map. You can define as many (or as few) breakpoints as you like, and name them whatever you want. Just be sure to:
 
@@ -50,20 +48,20 @@ $breakpoints: (
 
 ## Implementation
 
-Once your settings are in place, import `_columnsettings.scss` and `_columnsetter.scss` (in that order) into your main Sass file:
+Once your settings are in place, import `_column-settings.scss` and `_column-setter.scss` (in that order) into your main Sass file:
 
 ```scss
-@import "_columnsettings.scss";
-@import "_columnsetter.scss";
+@import "_column-settings.scss";
+@import "_column-setter.scss";
 ```
 
 ## Usage
 
-**To get the most out of ColumnSetter, using it in conjunction with `* { box-sizing: border-box; }` is strongly recommended.** ColumnSetter is lean and mean, packing a lot of power into just one function and five optional mixins.
+**To get the most out of Column Setter, using it in conjunction with `* { box-sizing: border-box; }` is strongly recommended.** Column Setter is lean and mean, packing a lot of power into just one function and five optional mixins.
 
 ### `colspan()`
 
-`colspan()` is a function used to generate percentage widths in proportion with the column structure. To use it on an element, you’ll need to know how many columns wide the element’s container is. For example, to specify a width of 6 columns for an element inside a container that’s 12 columns wide:
+`colspan()` is a function used to generate percentage widths in proportion with the grid. To use it on an element, you’ll need to know how many columns wide the element’s container is. For example, to specify a width of six columns for an element inside a container that’s 12 columns wide:
 
 ```scss
 .example {
@@ -101,13 +99,13 @@ And for more granular control, you can combine `colspan()` functions:
 
 ### `grid()`
 
-`grid()` is a mixin used to establish the context for your column structure. It sets the vertical margins for your layout at all breakpoints. The first (and only required) argument it takes is the class name of the layout’s container. If, for example, your layout is wrapped in a `div` with a class of `main-content`, you’ll invoke `grid()` like so:
+`grid()` is a mixin used to establish the context for your grid. It sets the vertical margins for your layout at all breakpoints. The first (and only required) argument it takes is the class name of the layout’s container. If, for example, your layout is wrapped in a `div` with a class of `main-content`, you’ll invoke `grid()` like so:
 
 ```scss
 @include grid( main-content );
 ```
 
-This establishes the container’s horizontal margins for each of the breakpoints you specified in `_columnsettings.scss`, and it compiles to something like this:
+This establishes the container’s horizontal margins for each of the breakpoints you specified in `_column-settings.scss`, and it compiles to something like this:
 
 ```css
 @media screen and (min-width: 0) {
@@ -122,7 +120,7 @@ This establishes the container’s horizontal margins for each of the breakpoint
 }
 ```
 
-You can also optionally include `overlay` as a second argument, which will put a translucent overlay of the column structure on top of your layout so you can make sure everything is lining up correctly:
+You can also optionally include `overlay` as a second argument, which will put a translucent overlay of the grid on top of your layout so you can make sure everything is lining up correctly:
 
 ```scss
 @include grid( main-content, overlay );
@@ -130,7 +128,7 @@ You can also optionally include `overlay` as a second argument, which will put a
 
 ### `breakpoint-min()`, `breakpoint-max()`, `breakpoint-range()`
 
-The three `breakpoint` mixins generate media queries based on the `$breakpoints` settings specified in `_columnsettings.scss`.
+The three `breakpoint` mixins generate media queries based on the `$breakpoints` settings specified in `_column-settings.scss`.
 
 ```scss
 @include breakpoint-min( xs ) { ... }
@@ -168,13 +166,13 @@ The above code compiles to:
 
 ## Tips and tricks
 
-* For the most part, ColumnSetter code will compile even if you make a mistake; the invalid code will simply be ignored. If something isn’t working the way you expected, look for a `WARNING` on the command line. ColumnSetter can recognize common mistakes and help you troubleshoot them.
+* For the most part, Column Setter code will compile even if you make a mistake—the invalid code will simply be ignored. If something isn’t working the way you expected, look for a `WARNING` on the command line. Column Setter can recognize common mistakes and help you troubleshoot them.
 
     ```sh
     WARNING: 'breakpoint-min(Gerald)' is invalid because 'Gerald' is not a valid breakpoint name. A 'breakpoint-min' mixin call must contain a valid breakpoint name, e.g. 'breakpoint-min(small)'. Current valid breakpoint names: xs, sm, md, lg, xl.
     ```
 
-* Elements are not confined to the width of their containers. Want an 8-column element inside a 6-column container? No problem:
+* Elements are not confined to the width of their containers. Want an eight-column element inside a six-column container? No problem:
 
     ```scss
     width: colspan( 8, 6 );
@@ -186,8 +184,12 @@ The above code compiles to:
     margin-left: -( colspan( 1, 8 ) + colspan( g, 8 ) );
     ```
 
-* Each breakpoint is required to specify a column count, but those column counts don’t all have to be unique. You might want certain elements to change at a certain breakpoint without changing the rest of the layout. Just add another breakpoint in `_columnsettings.scss` with the same number of columns as the one before or after it.
+* Each breakpoint is required to specify a column count, but those column counts don’t all have to be unique. You might want certain elements to change at a certain breakpoint without changing the rest of the layout. Just add another breakpoint in `_column-settings.scss` with the same number of columns as the one before or after it.
 
     ```scss
-
+    $breakpoints: (
+      small:  ( cols:  6, min-width:  0 ),
+      medium: ( cols: 10, min-width: 30em ),
+      large:  ( cols: 10, min-width: 35em )
+    );
     ```

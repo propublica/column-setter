@@ -6,7 +6,7 @@
 // missing
 // optional
 // ----------------------------------------
-// ColumnSetter uses the "invalid", "wrong-type", "missing", and
+// Column Setter uses the "invalid", "wrong-type", "missing", and
 // "optional" functions to build error messages.
 
 @function invalid($call, $arg2:null, $arg3:null, $arg4:null) {
@@ -53,7 +53,7 @@
 // ----------------------------------------
 // bp-attribute
 // ----------------------------------------
-// ColumnSetter uses the "bp-attribute" function to retrieve the
+// Column Setter uses the "bp-attribute" function to retrieve the
 // values of breakpoint attributes (such as "cols" and "min",
 // found in the $breakpoints map in "main.scss").
 //
@@ -73,7 +73,7 @@
 // ----------------------------------------
 // bp-validator (UNFINISHED)
 // ----------------------------------------
-// ColumnSetter uses the "bp-validator" function to ensure that there
+// Column Setter uses the "bp-validator" function to ensure that there
 // are no errors in the $breakpoints map in "main.scss".
 
 @function bp-validator() {
@@ -99,7 +99,7 @@
 // ----------------------------------------
 // width
 // ----------------------------------------
-// ColumnSetter uses the "width" function to calculate the width of a
+// Column Setter uses the "width" function to calculate the width of a
 // span of columns, derived from the proportional width
 // variables whose customizable values are defined at the top
 // of "main.scss".
