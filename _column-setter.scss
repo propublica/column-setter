@@ -60,7 +60,7 @@
 // EXAMPLE: To access the minimum measurement of the "sm"
 // breakpoint...
 //
-// bp-attribute(sm, min)
+// bp-attribute(sm, min-width)
 //
 // ...returns something like this:
 //
@@ -302,7 +302,7 @@ $bp-range-lesson: "A 'breakpoint-range' mixin call must contain valid minimum an
 		@warn invalid("breakpoint-range") + missing(2) + $bp-range-lesson;
 	}
 	@if $all-is-well == true {
-		@media screen and (min-width: bp-attribute($bp-min, min)) and (max-width: bp-attribute($bp-max, min)) { @content }
+		@media screen and (min-width: bp-attribute($bp-min, min-width)) and (max-width: bp-attribute($bp-max, min-width)) { @content }
 	}
 }
 
