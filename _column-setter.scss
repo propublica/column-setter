@@ -1,4 +1,8 @@
 // ------------------------------------------------------------
+// COLUMN SETTER v2.0
+// ------------------------------------------------------------
+
+// ------------------------------------------------------------
 // FUNCTIONS
 // ------------------------------------------------------------
 // invalid
@@ -399,31 +403,31 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 	}
 	@if $all-is-well == true {
 		.#{$class} {
-			@each $bp, $value in $breakpoints {
+			@each $bp, $value in $breakpoints { // For each breakpoint
 				$horiz-margin: 0;
-				@include breakpoint-min($bp) {
-					@if map-has-key(map-get($breakpoints, $bp), margin) {
-						@if unitless(bp-attribute($bp, margin)) {
-							@if unitless($col) and unitless($gut) {
+				@include breakpoint-min($bp) { // Create a media query
+					@if map-has-key(map-get($breakpoints, $bp), margin) { // If this breakpoint has custom margins
+						@if unitless(bp-attribute($bp, margin)) { // If margins are fluid width
+							@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
 								$horiz-margin: colspan(bp-attribute($bp, margin), fluidWidth(bp-attribute($bp, cols)) + (bp-attribute($bp, margin) * 2));
-							} @else if unitless($col) {
-								$horiz-margin: 0;
-							} @else if unitless($gut) {
-								$horiz-margin: 0;
+							} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
+								$horiz-margin: calc((100% - #{(bp-attribute($bp, cols) - 1) * $gut}) * #{bp-attribute($bp, margin) / (($col * bp-attribute($bp, cols)) + (bp-attribute($bp, margin) * 2))});
+							} @else if unitless($gut) { // If gutters are fluid width and gutters are fixed width
+								$horiz-margin: calc((100% - #{bp-attribute($bp, cols) * $col}) * #{bp-attribute($bp, margin) / (($gut * (bp-attribute($bp, cols) - 1)) + (bp-attribute($bp, margin) * 2))});
 							}
-						} @else {
+						} @else { // If margin is fixed width
 							$horiz-margin: bp-attribute($bp, margin);
 						}
-					} @else {
-						@if unitless($mar) {
-							@if unitless($col) and unitless($gut) {
+					} @else { // If this breakpoint has no custom margins
+						@if unitless($mar) { // If margins are fluid width
+							@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
 								$horiz-margin: colspan($mar, fluidWidth(bp-attribute($bp, cols)) + ($mar * 2));
-							} @else if unitless($col) {
+							} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
 								$horiz-margin: calc((100% - #{(bp-attribute($bp, cols) - 1) * $gut}) * #{$mar / (($col * bp-attribute($bp, cols)) + ($mar * 2))});
-							} @else if unitless($gut) {
-								$horiz-margin: 0;
+							} @else if unitless($gut) { // If gutters are fluid width and gutters are fixed width
+								$horiz-margin: calc((100% - #{bp-attribute($bp, cols) * $col}) * #{$mar / (($gut * (bp-attribute($bp, cols) - 1)) + ($mar * 2))});
 							}
-						} @else {
+						} @else { // If margins are fixed width
 							$horiz-margin: $mar;
 						}
 					}
@@ -434,27 +438,27 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 			@if $max-width { // If there is a max-width
 				max-width: $max-width;
 				$min-width: 0;
-				$bp-final: nth(map-keys($breakpoints), -1); // Name of the widest breakpoint
-				@if map-has-key(map-get($breakpoints, $bp-final), margin) {
-					@if unitless(bp-attribute($bp-final, margin)) {
-						@if unitless($col) and unitless($gut) {
+				$bp-final: nth(map-keys($breakpoints), -1); // The widest breakpoint
+				@if map-has-key(map-get($breakpoints, $bp-final), margin) { // If the widest breakpoint has custom margins
+					@if unitless(bp-attribute($bp-final, margin)) { // If margins are fluid width
+						@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
 							$min-width: ((((bp-attribute($bp-final, margin) / fluidWidth(bp-attribute($bp-final, cols))) * $max-width) * 2) + $max-width);
-						} @else if unitless($col) {
-							$horiz-margin: 0;
-						} @else if unitless($gut) {
-							$horiz-margin: 0;
+						} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
+							$min-width: calc(((#{$max-width} - #{(bp-attribute($bp-final, cols) - 1) * $gut}) * #{(bp-attribute($bp-final, margin) * 2) / ((bp-attribute($bp-final, cols) * $col) + (bp-attribute($bp-final, margin) * 2))}) + #{$max-width});
+						} @else if unitless($gut) { // If gutters are fluid width and columns are fixed width
+							$min-width: calc(((#{$max-width} - #{bp-attribute($bp-final, cols) * $col}) * #{(bp-attribute($bp-final, margin) * 2) / ((bp-attribute($bp-final, cols) * ($gut - 1)) + (bp-attribute($bp-final, margin) * 2))}) + #{$max-width});
 						}
 					} @else {
 						$min-width: calc(#{$max-width} + (#{bp-attribute($bp-final, margin)} * 2));
 					}
-				} @else {
-					@if unitless($mar) {
-						@if unitless($col) and unitless($gut) {
+				} @else { // If the widest breakpoint has no custom margins
+					@if unitless($mar) { // If margins are fluid width
+						@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
 							$min-width: (((($mar / (fluidWidth(bp-attribute($bp-final, cols)) + ($mar * 2))) * $max-width) * 2) + $max-width);
-						} @else if unitless($col) {
-							$horiz-margin: 0;
-						} @else if unitless($gut) {
-							$horiz-margin: 0;
+						} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
+							$min-width: calc(((#{$max-width} - #{(bp-attribute($bp-final, cols) - 1) * $gut}) * #{($mar * 2) / ((bp-attribute($bp-final, cols) * $col) + ($mar * 2))}) + #{$max-width});
+						} @else if unitless($gut) { // If gutters are fluid width and columns are fixed width
+							$min-width: calc(((#{$max-width} - #{bp-attribute($bp-final, cols) * $col}) * #{($mar * 2) / ((bp-attribute($bp-final, cols) * ($gut - 1)) + ($mar * 2))}) + #{$max-width});
 						}
 					} @else {
 						$min-width: calc(#{$max-width} + (#{$mar} * 2));
