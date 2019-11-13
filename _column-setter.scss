@@ -1,8 +1,11 @@
 // ------------------------------------------------------------
-// COLUMN SETTER v2.0
+// COLUMN SETTER v2.0 UPDATES:
 // 
-// Updates:
-// - Now supports a mix of 
+// - Now supports unit values in the width variables at the top
+//   of _column-settings.scss
+// - colspan() can now natively generate negative width values
+//   (via the optional $neg:true argument) and add a gutter to
+//   width values (via the optional $addgut:true argument)
 // ------------------------------------------------------------
 
 // ------------------------------------------------------------
@@ -151,10 +154,10 @@ $colspan-lesson: "A 'colspan' function call must include the unitless numeric co
 			$negClose: "";
 
 			@if unitless($gut) == false { // If gutters are fixed width
-				@if $addgut == true { // If a gutter is added to the desired width
+				@if $addgut == true { // If a gutter is added to the target width
 					$addgutAmount: $gut;
 				}
-			} @else if $addgut == true { // If gutters are fluid width and a gutter is added to the desired width
+			} @else if $addgut == true { // If gutters are fluid width and a gutter is added to the target width
 				@if unitless($col) { // If columns are fluid width
 					$addgutAmount: percentage($gut / fluidWidth($container));
 				} @else { // If columns are fixed width
@@ -162,7 +165,7 @@ $colspan-lesson: "A 'colspan' function call must include the unitless numeric co
 				}
 			}
 
-			@if $neg == true { // If the desired width is negative
+			@if $neg == true { // If the target width is negative
 				$negAmount: -1;
 				$negOpen: "(";
 				$negClose: ") * " + $negAmount;
@@ -174,7 +177,7 @@ $colspan-lesson: "A 'colspan' function call must include the unitless numeric co
 				@if $addgut == true { // If a gutter is added to the desired width
 					@warn "$addgut can't be used with p or g.";
 					@return false;
-				} @else if $pad == 0 {
+				} @else if $pad == 0 { // If the padding value is 0
 					@return 0;
 				} @else if not unitless($pad) { // If padding is fixed width
 					@return $pad * $negAmount;
@@ -189,10 +192,10 @@ $colspan-lesson: "A 'colspan' function call must include the unitless numeric co
 					@return false;
 				}
 			} @else if $target == "g" { // If the target is "g" (gutter)
-				@if $addgut == true { // If a gutter is added to the desired width
+				@if $addgut == true { // If a gutter is added to the target width
 					@warn "$addgut can't be used with p or g.";
 					@return false;
-				} @else if $gut == 0 {
+				} @else if $gut == 0 { // If the gutter value is 0
 					@return 0;
 				} @else if not unitless($gut) { // If gutters are fixed width
 					@return $gut * $negAmount;
@@ -215,7 +218,7 @@ $colspan-lesson: "A 'colspan' function call must include the unitless numeric co
 				} @else { // If columns are fluid width and gutters are fixed width
 					@return calc(#{$negOpen}(((100% - #{$gut * ($container - 1)}) / #{$container}) * #{$target}) + #{($gut * ($target - 1)) + $addgutAmount}#{$negClose});
 				}
-			} @else { // If the specified target is not "m", "p", "g", or a unitless number
+			} @else { // If the specified target is not "p", "g", or a unitless number
 				@warn "A colspan() target must be either 'p' (padding), 'g' (gutter), or a unitless number.";
 				@return false;
 			}
