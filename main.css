@@ -70,15 +70,15 @@ table {
     .main {
       margin: 0 auto; } }
   .main:before {
+    bottom: 0;
     content: "";
     display: block;
-    position: absolute;
-    top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-    pointer-events: none; }
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 100; }
     @media screen and (min-width: 0) {
       .main:before {
         background-image: repeating-linear-gradient(to right, rgba(255, 0, 0, 0.1), rgba(255, 0, 0, 0.1) 16.6666666667%, rgba(255, 0, 0, 0) 16.6666666667%, rgba(255, 0, 0, 0) 27.7777777778%); } }
