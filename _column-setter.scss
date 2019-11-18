@@ -5,7 +5,7 @@
 //   variables in _column-settings.scss
 // - colspan() can now natively generate negative width values
 //   (by specifying the target as a negative number) and add a
-//   gutter to width values (via the optional $addgut:true argument)
+//   gutter to width values (via the optional $addgut argument)
 // - A wider range of errors now can be detected, including
 //   missing or incorrectly formatted settings
 // ------------------------------------------------------------
@@ -117,12 +117,12 @@ $more-info: "Learn more: https://github.com/propublica/column-setter";
 //
 // width: calc((((100% - 3em) / 4) * 3) + 2em);
 
-$colspan-lesson: "A 'colspan' function call must include the unitless numeric column widths of both the target and its container, e.g. 'colspan(4,8)'. The target width can also be specified as 'p' (for $pad width) or 'g' (for $gut width). Optional additional arguments include '$addgut:true' (to add a gutter width to the target). ";
+$colspan-lesson: "A 'colspan' function call must include the unitless numeric column widths of both the target and its container, e.g. 'colspan(4,8)'. The target width can also be specified as 'p' (for $pad width) or 'g' (for $gut width). 'addgut' can optionally be added as a third argument (e.g. colspan(1, 4, addgut)) to add a gutter width to the target. " + $more-info;
 $component-settings-invalid: "Some information is invalid in the grid component variables. ";
 $component-settings-missing: "Some information is missing from the grid component variables. ";
-$component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric value defined in _column-settings.scss. ";
+$component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric value defined in _column-settings.scss. " + $more-info;
 
-@function colspan($target:null, $container:null, $addgut:false) {
+@function colspan($target:null, $container:null, $addgut:null) {
 	@if global-variable-exists("mar")
 	and global-variable-exists("col")
 	and global-variable-exists("gut")
@@ -132,7 +132,7 @@ $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric
 		and type-of($gut) == number
 		and type-of($pad) == number {
 
-			@if $addgut == true or $addgut == false { // If $addgut is correctly formatted
+			@if $addgut == null or $addgut == "addgut" { // If $addgut is correctly formatted
 				@if $target and $container { // If a target and container have been specified
 					@if $target == $container { // If the target and container are the same
 						@return 100%;
@@ -144,10 +144,10 @@ $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric
 						$negClose: "";
 
 						@if unitless($gut) == false { // If gutters are fixed width
-							@if $addgut == true { // If a gutter is added to the target width
+							@if $addgut == "addgut" { // If a gutter is added to the target width
 								$addgutAmount: $gut;
 							}
-						} @else if $addgut == true { // If gutters are fluid width and a gutter is added to the target width
+						} @else if $addgut == "addgut" { // If gutters are fluid width and a gutter is added to the target width
 							@if unitless($col) { // If columns are fluid width
 								$addgutAmount: percentage($gut / fluid-width($container));
 							} @else { // If columns are fixed width
@@ -167,8 +167,8 @@ $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric
 						@if $target == 0 {
 							@return 0;
 						} @else if $target == "p" or $target == "-p" { // If the target is "p" (padding)
-							@if $addgut == true { // If a gutter is added to the target width
-								@warn "$addgut can't be used with padding or gutter widths. " + $colspan-lesson + $more-info;
+							@if $addgut == "addgut" { // If a gutter is added to the target width
+								@warn "'addgut' can't be used with padding or gutter widths. " + $colspan-lesson;
 								@return false;
 							} @else if $pad == 0 { // If the padding value is 0
 								@return 0;
@@ -185,8 +185,8 @@ $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric
 								@return 0;
 							}
 						} @else if $target == "g" or $target == "-g" { // If the target is "g" (gutter)
-							@if $addgut == true { // If a gutter is added to the target width
-								@warn "$addgut can't be used with padding or gutter widths. " + $colspan-lesson + $more-info;
+							@if $addgut == "addgut" { // If a gutter is added to the target width
+								@warn "'addgut' can't be used with padding or gutter widths. " + $colspan-lesson;
 								@return false;
 							} @else if $gut == 0 { // If the gutter value is 0
 								@return 0;
@@ -212,29 +212,29 @@ $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric
 								@return calc(#{$negOpen}(((100% - #{$gut * ($container - 1)}) / #{$container}) * #{$target}) + #{($gut * ($target - 1)) + $addgutAmount}#{$negClose});
 							}
 						} @else { // If the specified target is not "p", "g", or a unitless number
-							@warn invalid("colspan",$target,$container) + wrong-type("unitless number",$target) + ". " + $colspan-lesson + $more-info;
+							@warn invalid("colspan",$target,$container) + wrong-type("unitless number",$target) + ". " + $colspan-lesson;
 							@return false;
 						}
 					} @else { // If the specified container is not a unitless number
-						@warn invalid("colspan",$target,$container) + wrong-type("unitless number",$container) + ". " + $colspan-lesson + $more-info;
+						@warn invalid("colspan",$target,$container) + wrong-type("unitless number",$container) + ". " + $colspan-lesson;
 						@return false;
 					}
 				} @else if $target and not $container { // If a target is specified but not a container
-					@warn invalid("colspan",$target,$container) + missing-arg(1) + $colspan-lesson + $more-info;
+					@warn invalid("colspan",$target,$container) + missing-arg(1) + $colspan-lesson;
 					@return false;
 				} @else if not $target { // If neither target nor container are specified
-					@warn invalid("colspan",$target,$container) + missing-arg(2) + $colspan-lesson + $more-info;
+					@warn invalid("colspan",$target,$container) + missing-arg(2) + $colspan-lesson;
 					@return false;
 				}
 			} @else {
-				@warn "$addgut and $neg will only accept a value of true or false. " + $colspan-lesson + $more-info;
+				@warn invalid("colspan",$target,$container,$addgut) + optional("third",$addgut,"addgut") + $colspan-lesson;
 				@return false;
 			}
 		} @else {
-			@error $component-settings-invalid + $component-settings-lesson + $more-info;
+			@error $component-settings-invalid + $component-settings-lesson;
 		}
 	} @else {
-		@error $component-settings-missing + $component-settings-lesson + $more-info;
+		@error $component-settings-missing + $component-settings-lesson;
 	}
 }
 
@@ -272,10 +272,10 @@ $bp-max-lesson: "";
 $bp-range-lesson: "";
 
 @if global-variable-exists("breakpoints") {
-	$valid-bp-names: "Current valid breakpoint names (customizable in _column-settings.scss): " + map-keys($breakpoints) + ". " + $more-info;
-	$bp-min-lesson: "A 'breakpoint-min' mixin call must contain a valid breakpoint name, e.g. 'breakpoint-min(small)'. " + $valid-bp-names;
-	$bp-max-lesson: "A 'breakpoint-max' mixin call must contain a valid breakpoint name, e.g. 'breakpoint-max(large)'. " + $valid-bp-names;
-	$bp-range-lesson: "A 'breakpoint-range' mixin call must contain valid minimum and maximum breakpoint names, e.g. 'breakpoint-range(small,large)'. " + $valid-bp-names;
+	$valid-bp-names: "Current valid breakpoint names (customizable in _column-settings.scss): " + map-keys($breakpoints) + ". ";
+	$bp-min-lesson: "A 'breakpoint-min' mixin call must contain a valid breakpoint name, e.g. 'breakpoint-min(small)'. " + $valid-bp-names  + $more-info;
+	$bp-max-lesson: "A 'breakpoint-max' mixin call must contain a valid breakpoint name, e.g. 'breakpoint-max(large)'. " + $valid-bp-names + $more-info;
+	$bp-range-lesson: "A 'breakpoint-range' mixin call must contain valid minimum and maximum breakpoint names, e.g. 'breakpoint-range(small,large)'. " + $valid-bp-names + $more-info;
 }
 
 // @include breakpoint-min(lg) { ... }
@@ -286,7 +286,8 @@ $bp-range-lesson: "";
 
 @mixin breakpoint-min($bp:null) {
 	@if global-variable-exists("breakpoints") {
-		@if type-of($breakpoints) == map
+		@if $bp
+		and type-of($breakpoints) == map
 		and map-has-key($breakpoints, $bp)
 		and type-of(map-get($breakpoints, $bp)) == map
 		and map-has-key(map-get($breakpoints, $bp), "cols")
@@ -294,24 +295,16 @@ $bp-range-lesson: "";
 		and unitless(bp-attribute($bp, "cols"))
 		and map-has-key(map-get($breakpoints, $bp), "min-width")
 		and type-of(bp-attribute($bp, "min-width")) == number {
-			$all-is-well: true;
-			@if $bp {
-				@if not map-has-key($breakpoints, $bp) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-min",$bp) + wrong-type("valid breakpoint name",$bp) + ". " + $bp-min-lesson;
-				}
-			} @else {
-				$all-is-well: false;
-				@warn invalid("breakpoint-min") + missing-arg(1) + $bp-min-lesson;
-			}
-			@if $all-is-well == true {
-				@media screen and (min-width: bp-attribute($bp, min-width)) { @content; }
-			}
+			@media screen and (min-width: bp-attribute($bp, min-width)) { @content; }
+		} @else if not $bp {
+			@warn invalid("breakpoint-min") + missing-arg(1) + $bp-min-lesson;
+		} @else if not map-has-key($breakpoints, $bp) {
+			@warn invalid("breakpoint-min",$bp) + wrong-type("valid breakpoint name",$bp) + ". " + $bp-min-lesson;
 		} @else {
-			@error $breakpoints-invalid + $breakpoints-lesson + $more-info;
+			@error $breakpoints-invalid + $breakpoints-lesson;
 		}
 	} @else {
-		@error $breakpoints-missing + $breakpoints-lesson + $more-info;
+		@error $breakpoints-missing + $breakpoints-lesson;
 	}
 }
 
@@ -323,7 +316,8 @@ $bp-range-lesson: "";
 
 @mixin breakpoint-max($bp:null) {
 	@if global-variable-exists("breakpoints") {
-		@if type-of($breakpoints) == map
+		@if $bp
+		and type-of($breakpoints) == map
 		and map-has-key($breakpoints, $bp)
 		and type-of(map-get($breakpoints, $bp)) == map
 		and map-has-key(map-get($breakpoints, $bp), "cols")
@@ -331,24 +325,16 @@ $bp-range-lesson: "";
 		and unitless(bp-attribute($bp, "cols"))
 		and map-has-key(map-get($breakpoints, $bp), "min-width")
 		and type-of(bp-attribute($bp, "min-width")) == number {
-			$all-is-well: true;
-			@if $bp {
-				@if not map-has-key($breakpoints, $bp) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-max",$bp) + wrong-type("valid breakpoint name",$bp) + ". " + $bp-min-lesson;
-				}
-			} @else {
-				$all-is-well: false;
-				@warn invalid("breakpoint-max") + missing-arg(1) + $bp-min-lesson;
-			}
-			@if $all-is-well == true {
-				@media screen and (max-width: bp-attribute($bp, min-width)) { @content; }
-			}
+			@media screen and (max-width: bp-attribute($bp, min-width)) { @content; }
+		} @else if not $bp {
+			@warn invalid("breakpoint-max") + missing-arg(1) + $bp-min-lesson;
+		} @else if not map-has-key($breakpoints, $bp) {
+			@warn invalid("breakpoint-max",$bp) + wrong-type("valid breakpoint name",$bp) + ". " + $bp-min-lesson;
 		} @else {
-			@error $breakpoints-invalid + $breakpoints-lesson + $more-info;
+			@error $breakpoints-invalid + $breakpoints-lesson;
 		}
 	} @else {
-		@error $breakpoints-missing + $breakpoints-lesson + $more-info;
+		@error $breakpoints-missing + $breakpoints-lesson;
 	}
 }
 
@@ -360,7 +346,8 @@ $bp-range-lesson: "";
 
 @mixin breakpoint-range($bp-min:null, $bp-max:null) {
 	@if global-variable-exists("breakpoints") {
-		@if type-of($breakpoints) == map
+		@if $bp-min and $bp-max
+		and type-of($breakpoints) == map
 		and map-has-key($breakpoints, $bp-min)
 		and type-of(map-get($breakpoints, $bp-min)) == map
 		and map-has-key(map-get($breakpoints, $bp-min), "cols")
@@ -375,41 +362,26 @@ $bp-range-lesson: "";
 		and unitless(bp-attribute($bp-max, "cols"))
 		and map-has-key(map-get($breakpoints, $bp-max), "min-width")
 		and type-of(bp-attribute($bp-max, "min-width")) == number {
-			$all-is-well: true;
-			@if $bp-min and $bp-max {
-				@if not map-has-key($breakpoints, $bp-min) and not map-has-key($breakpoints, $bp-max) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-min,$bp-max) + ". " + $bp-range-lesson;
-				}
-				@if not map-has-key($breakpoints, $bp-min) and map-has-key($breakpoints, $bp-max) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-min) + ". " + $bp-range-lesson;
-				}
-				@if map-has-key($breakpoints, $bp-min) and not map-has-key($breakpoints, $bp-max) {
-					$all-is-well: false;
-					@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-max) + ". " + $bp-range-lesson;
-				}
+			@media screen and (min-width: bp-attribute($bp-min, min-width)) and (max-width: bp-attribute($bp-max, min-width)) { @content }
+		} @else if $bp-min and not $bp-max {
+			@if map-has-key($breakpoints, $bp-min) {
+				@warn invalid("breakpoint-range",$bp-min) + missing-arg(1) + $bp-range-lesson;
+			} @else {
+				@warn invalid("breakpoint-range",$bp-min) + wrong-type("valid breakpoint name",$bp-min) + ", and " + missing-arg(1) + $bp-range-lesson;
 			}
-			@if $bp-min and not $bp-max {
-				$all-is-well: false;
-				@if map-has-key($breakpoints, $bp-min) {
-					@warn invalid("breakpoint-range",$bp-min) + missing-arg(1) + $bp-range-lesson;
-				} @else {
-					@warn invalid("breakpoint-range",$bp-min) + wrong-type("valid breakpoint name",$bp-min) + ", and " + missing-arg(1) + $bp-range-lesson;
-				}
-			}
-			@if not $bp-min {
-				$all-is-well: false;
-				@warn invalid("breakpoint-range") + missing-arg(2) + $bp-range-lesson;
-			}
-			@if $all-is-well == true {
-				@media screen and (min-width: bp-attribute($bp-min, min-width)) and (max-width: bp-attribute($bp-max, min-width)) { @content }
-			}
+		} @else if not $bp-min {
+			@warn invalid("breakpoint-range") + missing-arg(2) + $bp-range-lesson;
+		} @else if not map-has-key($breakpoints, $bp-min) and not map-has-key($breakpoints, $bp-max) {
+			@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-min,$bp-max) + ". " + $bp-range-lesson;
+		} @else if not map-has-key($breakpoints, $bp-min) and map-has-key($breakpoints, $bp-max) {
+			@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-min) + ". " + $bp-range-lesson;
+		} @else if map-has-key($breakpoints, $bp-min) and not map-has-key($breakpoints, $bp-max) {
+			@warn invalid("breakpoint-range",$bp-min,$bp-max) + wrong-type("valid breakpoint name",$bp-max) + ". " + $bp-range-lesson;
 		} @else {
-			@error $breakpoints-invalid + $breakpoints-lesson + $more-info;
+			@error $breakpoints-invalid + $breakpoints-lesson;
 		}
 	} @else {
-		@error $breakpoints-missing + $breakpoints-lesson + $more-info;
+		@error $breakpoints-missing + $breakpoints-lesson;
 	}
 }
 
@@ -574,7 +546,7 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 											$gc,
 											$gc colspan(1, bp-attribute($bp, cols)),
 											$gg colspan(1, bp-attribute($bp, cols)),
-											$gg colspan(1, bp-attribute($bp, cols), $addgut:true)
+											$gg colspan(1, bp-attribute($bp, cols), addgut)
 										);
 									}
 								}
@@ -592,12 +564,12 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 					}
 				}
 			} @else {
-				@error $breakpoints-missing + $breakpoints-lesson + $more-info;
+				@error $breakpoints-missing + $breakpoints-lesson;
 			}
 		} @else {
-			@error $component-settings-invalid + $component-settings-lesson + $more-info;
+			@error $component-settings-invalid + $component-settings-lesson;
 		}
 	} @else {
-		@error $component-settings-missing + $component-settings-lesson + $more-info;
+		@error $component-settings-missing + $component-settings-lesson;
 	}
 }
