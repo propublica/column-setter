@@ -122,7 +122,7 @@ $component-settings-invalid: "Some information is invalid in the grid component 
 $component-settings-missing: "Some information is missing from the grid component variables. ";
 $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric value defined in _column-settings.scss. ";
 
-@function colspan($target:null, $container:null, $addgut:false, $neg:false) {
+@function colspan($target:null, $container:null, $addgut:false) {
 	@if global-variable-exists("mar")
 	and global-variable-exists("col")
 	and global-variable-exists("gut")
@@ -132,7 +132,7 @@ $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric
 		and type-of($gut) == number
 		and type-of($pad) == number {
 
-			@if ($addgut == true or $addgut == false) and ($neg == true or $neg == false) { // If $addgut and $neg are correctly formatted
+			@if $addgut == true or $addgut == false { // If $addgut is correctly formatted
 				@if $target and $container { // If a target and container have been specified
 					@if $target == $container { // If the target and container are the same
 						@return 100%;
@@ -155,7 +155,10 @@ $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric
 							}
 						}
 
-						@if $neg == true { // If the target width is negative
+						@if (type-of($target) == number and $target < 0) or (type-of($target) == string and str-slice($target, 1, 1) == "-") { // If the target width is negative
+							@if type-of($target) == number {
+								$target: abs($target);
+							}
 							$negAmount: -1;
 							$negOpen: "(";
 							$negClose: ") * " + $negAmount;
@@ -163,7 +166,7 @@ $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric
 
 						@if $target == 0 {
 							@return 0;
-						} @else if $target == "p" { // If the target is "p" (padding)
+						} @else if $target == "p" or $target == "-p" { // If the target is "p" (padding)
 							@if $addgut == true { // If a gutter is added to the target width
 								@warn "$addgut can't be used with padding or gutter widths. " + $colspan-lesson + $more-info;
 								@return false;
@@ -181,7 +184,7 @@ $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric
 								@warn "For padding to be fluid width, columns and/or gutters must also be fluid width. " + $more-info;
 								@return 0;
 							}
-						} @else if $target == "g" { // If the target is "g" (gutter)
+						} @else if $target == "g" or $target == "-g" { // If the target is "g" (gutter)
 							@if $addgut == true { // If a gutter is added to the target width
 								@warn "$addgut can't be used with padding or gutter widths. " + $colspan-lesson + $more-info;
 								@return false;
