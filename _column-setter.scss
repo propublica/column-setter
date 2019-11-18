@@ -4,8 +4,8 @@
 // - Unit values are now supported in the grid component
 //   variables in _column-settings.scss
 // - colspan() can now natively generate negative width values
-//   (via the optional $neg:true argument) and add a gutter to
-//   width values (via the optional $addgut:true argument)
+//   (by specifying the target as a negative number) and add a
+//   gutter to width values (via the optional $addgut:true argument)
 // - A wider range of errors now can be detected, including
 //   missing or incorrectly formatted settings
 // ------------------------------------------------------------
@@ -117,7 +117,7 @@ $more-info: "Learn more: https://github.com/propublica/column-setter";
 //
 // width: calc((((100% - 3em) / 4) * 3) + 2em);
 
-$colspan-lesson: "A 'colspan' function call must include the unitless numeric column widths of both the target and its container, e.g. 'colspan(4,8)'. The target width can also be specified as 'p' (for $pad width) or 'g' (for $gut width). Optional additional arguments include '$addgut:true' (to add a gutter width to the target) and '$neg:true' (to make the width negative). ";
+$colspan-lesson: "A 'colspan' function call must include the unitless numeric column widths of both the target and its container, e.g. 'colspan(4,8)'. The target width can also be specified as 'p' (for $pad width) or 'g' (for $gut width). Optional additional arguments include '$addgut:true' (to add a gutter width to the target). ";
 $component-settings-invalid: "Some information is invalid in the grid component variables. ";
 $component-settings-missing: "Some information is missing from the grid component variables. ";
 $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric value defined in _column-settings.scss. ";
