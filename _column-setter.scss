@@ -1,14 +1,23 @@
 // ------------------------------------------------------------
 // COLUMN SETTER v2.0 UPDATES:
 // 
-// - Unit values are now supported in the grid component
-//   variables in _column-settings.scss
+// - Unit values are now supported in the grid property
+//   variables ($mar, $col, $gut, $pad) in
+//   _column-settings.scss
+// - All grid property widths can now be customized
+//   per breakpoint in the $breakpoints map in
+//   _column-settings.scss
 // - colspan() can now natively generate negative width values
 //   (by specifying the target as a negative number) and add a
 //   gutter to width values (via the optional $addgut argument)
 // - A wider range of errors now can be detected, including
 //   missing or incorrectly formatted settings
 // ------------------------------------------------------------
+
+$mar-init: $mar;
+$col-init: $col;
+$gut-init: $gut;
+$pad-init: $pad;
 
 // ------------------------------------------------------------
 // FUNCTIONS
@@ -18,8 +27,8 @@
 // missing-arg()
 // optional()
 // ----------------------------------------
-// Column Setter uses invalid(), wrong-type(), missing-arg(), and
-// optional() to build error messages.
+// Column Setter uses invalid(), wrong-type(), missing-arg(),
+// and optional() to build error messages.
 
 @function invalid($call, $arg2:null, $arg3:null, $arg4:null) {
 	@if $arg2 and $arg3 and $arg4 {
@@ -61,8 +70,8 @@ $more-info: "Learn more: https://github.com/propublica/column-setter";
 // bp-attribute()
 // ----------------------------------------
 // Column Setter uses the bp-attribute() to retrieve the values
-// of breakpoint attributes (such as "cols" and "min"), found
-// in the $breakpoints map in _column-settings.scss.
+// of breakpoint attributes (such as "cols" and "min-width"),
+// found in the $breakpoints map in _column-settings.scss.
 //
 // EXAMPLE: To access the minimum measurement of the "sm"
 // breakpoint...
@@ -81,7 +90,7 @@ $more-info: "Learn more: https://github.com/propublica/column-setter";
 // fluid-width()
 // ----------------------------------------
 // Column Setter uses fluid-width() to calculate the width of
-// a span of columns, derived from the grid component variables
+// a span of columns, derived from the grid property variables
 // whose customizable values are defined at the top of
 // _column-settings.scss. fluid-width() will only work with
 // unitless values.
@@ -102,8 +111,9 @@ $more-info: "Learn more: https://github.com/propublica/column-setter";
 // colspan()
 // ----------------------------------------
 // colspan() allows the user to generate grid-based width
-// values, derived from the variables whose customizable values
-// are defined at the top of _column-settings.scss.
+// values, derived from the property variables whose
+// customizable values are defined at the top of
+// _column-settings.scss.
 //
 // EXAMPLE: For a width spanning 6 of 12 columns...
 //
@@ -118,9 +128,9 @@ $more-info: "Learn more: https://github.com/propublica/column-setter";
 // width: calc((((100% - 3em) / 4) * 3) + 2em);
 
 $colspan-lesson: "A 'colspan' function call must include the unitless numeric column widths of both the target and its container, e.g. 'colspan(4,8)'. The target width can also be specified as 'p' (for $pad width) or 'g' (for $gut width). 'addgut' can optionally be added as a third argument (e.g. colspan(1, 4, addgut)) to add a gutter width to the target. " + $more-info;
-$component-settings-invalid: "Some information is invalid in the grid component variables. ";
-$component-settings-missing: "Some information is missing from the grid component variables. ";
-$component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric value defined in _column-settings.scss. " + $more-info;
+$property-settings-invalid: "Some information is invalid in the grid property variables. ";
+$property-settings-missing: "Some information is missing from the grid property variables. ";
+$property-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric value defined in _column-settings.scss. " + $more-info;
 
 @function colspan($target:null, $container:null, $addgut:null) {
 	@if global-variable-exists("mar")
@@ -231,10 +241,10 @@ $component-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric
 				@return false;
 			}
 		} @else {
-			@error $component-settings-invalid + $component-settings-lesson;
+			@error $property-settings-invalid + $property-settings-lesson;
 		}
 	} @else {
-		@error $component-settings-missing + $component-settings-lesson;
+		@error $property-settings-missing + $property-settings-lesson;
 	}
 }
 
@@ -290,12 +300,18 @@ $bp-range-lesson: "";
 		and type-of($breakpoints) == map
 		and map-has-key($breakpoints, $bp)
 		and type-of(map-get($breakpoints, $bp)) == map
-		and map-has-key(map-get($breakpoints, $bp), "cols")
+		and bp-attribute($bp, "cols")
 		and type-of(bp-attribute($bp, "cols")) == number
 		and unitless(bp-attribute($bp, "cols"))
-		and map-has-key(map-get($breakpoints, $bp), "min-width")
+		and bp-attribute($bp, "min-width")
 		and type-of(bp-attribute($bp, "min-width")) == number {
+			@if bp-attribute($bp, "column") { $col: bp-attribute($bp, "column") !global; }
+			@if bp-attribute($bp, "gutter") { $gut: bp-attribute($bp, "gutter") !global; }
+			@if bp-attribute($bp, "padding") { $pad: bp-attribute($bp, "padding") !global; }
 			@media screen and (min-width: bp-attribute($bp, min-width)) { @content; }
+			$col: $col-init !global;
+			$gut: $gut-init !global;
+			$pad: $pad-init !global;
 		} @else if not $bp {
 			@warn invalid("breakpoint-min") + missing-arg(1) + $bp-min-lesson;
 		} @else if not map-has-key($breakpoints, $bp) {
@@ -320,10 +336,10 @@ $bp-range-lesson: "";
 		and type-of($breakpoints) == map
 		and map-has-key($breakpoints, $bp)
 		and type-of(map-get($breakpoints, $bp)) == map
-		and map-has-key(map-get($breakpoints, $bp), "cols")
+		and bp-attribute($bp, "cols")
 		and type-of(bp-attribute($bp, "cols")) == number
 		and unitless(bp-attribute($bp, "cols"))
-		and map-has-key(map-get($breakpoints, $bp), "min-width")
+		and bp-attribute($bp, "min-width")
 		and type-of(bp-attribute($bp, "min-width")) == number {
 			@media screen and (max-width: bp-attribute($bp, min-width)) { @content; }
 		} @else if not $bp {
@@ -350,19 +366,25 @@ $bp-range-lesson: "";
 		and type-of($breakpoints) == map
 		and map-has-key($breakpoints, $bp-min)
 		and type-of(map-get($breakpoints, $bp-min)) == map
-		and map-has-key(map-get($breakpoints, $bp-min), "cols")
+		and bp-attribute($bp-min, "cols")
 		and type-of(bp-attribute($bp-min, "cols")) == number
 		and unitless(bp-attribute($bp-min, "cols"))
-		and map-has-key(map-get($breakpoints, $bp-min), "min-width")
+		and bp-attribute($bp-min, "min-width")
 		and type-of(bp-attribute($bp-min, "min-width")) == number
 		and map-has-key($breakpoints, $bp-max)
 		and type-of(map-get($breakpoints, $bp-max)) == map
-		and map-has-key(map-get($breakpoints, $bp-max), "cols")
+		and bp-attribute($bp-max, "cols")
 		and type-of(bp-attribute($bp-max, "cols")) == number
 		and unitless(bp-attribute($bp-max, "cols"))
-		and map-has-key(map-get($breakpoints, $bp-max), "min-width")
+		and bp-attribute($bp-max, "min-width")
 		and type-of(bp-attribute($bp-max, "min-width")) == number {
+			@if bp-attribute($bp-min, "column") { $col: bp-attribute($bp-min, "column") !global; }
+			@if bp-attribute($bp-min, "gutter") { $gut: bp-attribute($bp-min, "gutter") !global; }
+			@if bp-attribute($bp-min, "padding") { $pad: bp-attribute($bp-min, "padding") !global; }
 			@media screen and (min-width: bp-attribute($bp-min, min-width)) and (max-width: bp-attribute($bp-max, min-width)) { @content }
+			$col: $col-init !global;
+			$gut: $gut-init !global;
+			$pad: $pad-init !global;
 		} @else if $bp-min and not $bp-max {
 			@if map-has-key($breakpoints, $bp-min) {
 				@warn invalid("breakpoint-range",$bp-min) + missing-arg(1) + $bp-range-lesson;
@@ -443,42 +465,27 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 						$horiz-margin: 0;
 						@each $bp, $value in $breakpoints { // For each breakpoint
 							@include breakpoint-min($bp) { // Create a media query
-								@if map-has-key(map-get($breakpoints, $bp), margin) { // If this breakpoint has custom margins
-									@if bp-attribute($bp, margin) == 0 {
+								@if bp-attribute($bp, "margin") { // If this breakpoint has custom margins
+									$mar: bp-attribute($bp, "margin") !global;
+								}
+								@if $mar == 0 {
+									$horiz-margin: 0;
+								} @else if unitless($mar) { // If margins are fluid width
+									@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
+										$horiz-margin: colspan($mar, fluid-width(bp-attribute($bp, cols)) + ($mar * 2));
+									} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
+										$horiz-margin: calc((100% - #{(bp-attribute($bp, cols) - 1) * $gut}) * #{$mar / (($col * bp-attribute($bp, cols)) + ($mar * 2))});
+									} @else if unitless($gut) { // If columns are fixed width and gutters are fluid width
+										$horiz-margin: calc((100% - #{bp-attribute($bp, cols) * $col}) * #{$mar / (($gut * (bp-attribute($bp, cols) - 1)) + ($mar * 2))});
+									} @else { // If columns are fixed width and gutters are fixed width
+										@warn "For the margin to be fluid width, columns and/or gutters must also be fluid width. " + $more-info;
 										$horiz-margin: 0;
-									} @else if unitless(bp-attribute($bp, margin)) { // If margins are fluid width
-										@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
-											$horiz-margin: colspan(bp-attribute($bp, margin), fluid-width(bp-attribute($bp, cols)) + (bp-attribute($bp, margin) * 2));
-										} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
-											$horiz-margin: calc((100% - #{(bp-attribute($bp, cols) - 1) * $gut}) * #{bp-attribute($bp, margin) / (($col * bp-attribute($bp, cols)) + (bp-attribute($bp, margin) * 2))});
-										} @else if unitless($gut) { // If columns are fixed width and gutters are fluid width
-											$horiz-margin: calc((100% - #{bp-attribute($bp, cols) * $col}) * #{bp-attribute($bp, margin) / (($gut * (bp-attribute($bp, cols) - 1)) + (bp-attribute($bp, margin) * 2))});
-										} @else { // If columns are fixed width and gutters are fixed width
-											@warn "For the margin to be fluid width, columns and/or gutters must also be fluid width. " + $more-info;
-											$horiz-margin: 0;
-										}
-									} @else { // If margin is fixed width
-										$horiz-margin: bp-attribute($bp, margin);
 									}
-								} @else { // If this breakpoint has no custom margins
-									@if $mar == 0 {
-										$horiz-margin: 0;
-									} @else if unitless($mar) { // If margins are fluid width
-										@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
-											$horiz-margin: colspan($mar, fluid-width(bp-attribute($bp, cols)) + ($mar * 2));
-										} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
-											$horiz-margin: calc((100% - #{(bp-attribute($bp, cols) - 1) * $gut}) * #{$mar / (($col * bp-attribute($bp, cols)) + ($mar * 2))});
-										} @else if unitless($gut) { // If columns are fixed width and gutters are fluid width
-											$horiz-margin: calc((100% - #{bp-attribute($bp, cols) * $col}) * #{$mar / (($gut * (bp-attribute($bp, cols) - 1)) + ($mar * 2))});
-										} @else { // If columns are fixed width and gutters are fixed width
-											@warn "For the margin to be fluid width, columns and/or gutters must also be fluid width. " + $more-info;
-											$horiz-margin: 0;
-										}
-									} @else { // If margins are fixed width
-										$horiz-margin: $mar;
-									}
+								} @else { // If margins are fixed width
+									$horiz-margin: $mar;
 								}
 								margin: 0 $horiz-margin;
+								$mar: $mar-init !global;
 							}
 						}
 
@@ -487,40 +494,28 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 								max-width: $max-width;
 								$min-width: $max-width;
 								$bp-final: nth(map-keys($breakpoints), -1); // The widest breakpoint
-								@if map-has-key(map-get($breakpoints, $bp-final), margin) { // If the widest breakpoint has custom margins
-									@if bp-attribute($bp, margin) == 0 {
-										$min-width: $max-width;
-									} @else if unitless(bp-attribute($bp-final, margin)) { // If margins are fluid width
-										@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
-											$min-width: ((((bp-attribute($bp-final, margin) / fluid-width(bp-attribute($bp-final, cols))) * $max-width) * 2) + $max-width);
-										} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
-											$min-width: calc(((#{$max-width} - #{(bp-attribute($bp-final, cols) - 1) * $gut}) * #{(bp-attribute($bp-final, margin) * 2) / ((bp-attribute($bp-final, cols) * $col) + (bp-attribute($bp-final, margin) * 2))}) + #{$max-width});
-										} @else if unitless($gut) { // If columns are fixed width and gutters are fluid width
-											$min-width: calc(((#{$max-width} - #{bp-attribute($bp-final, cols) * $col}) * #{(bp-attribute($bp-final, margin) * 2) / ((bp-attribute($bp-final, cols) * ($gut - 1)) + (bp-attribute($bp-final, margin) * 2))}) + #{$max-width});
-										}
-									} @else {
-										$min-width: calc(#{$max-width} + (#{bp-attribute($bp-final, margin)} * 2));
+								@if bp-attribute($bp-final, "margin") { // If this breakpoint has custom margins
+									$mar: bp-attribute($bp-final, "margin") !global;
+								}
+								@if $mar == 0 {
+									$min-width: $max-width;
+								} @else if unitless($mar) { // If margins are fluid width
+									@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
+										$min-width: (((($mar / (fluid-width(bp-attribute($bp-final, cols)) + ($mar * 2))) * $max-width) * 2) + $max-width);
+									} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
+										$min-width: calc(((#{$max-width} - #{(bp-attribute($bp-final, cols) - 1) * $gut}) * #{($mar * 2) / ((bp-attribute($bp-final, cols) * $col) + ($mar * 2))}) + #{$max-width});
+									} @else if unitless($gut) { // If columns are fixed width and gutters are fluid width
+										$min-width: calc(((#{$max-width} - #{bp-attribute($bp-final, cols) * $col}) * #{($mar * 2) / ((bp-attribute($bp-final, cols) * ($gut - 1)) + ($mar * 2))}) + #{$max-width});
 									}
-								} @else { // If the widest breakpoint has no custom margins
-									@if $mar == 0 {
-										$min-width: $max-width;
-									} @else if unitless($mar) { // If margins are fluid width
-										@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
-											$min-width: (((($mar / (fluid-width(bp-attribute($bp-final, cols)) + ($mar * 2))) * $max-width) * 2) + $max-width);
-										} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
-											$min-width: calc(((#{$max-width} - #{(bp-attribute($bp-final, cols) - 1) * $gut}) * #{($mar * 2) / ((bp-attribute($bp-final, cols) * $col) + ($mar * 2))}) + #{$max-width});
-										} @else if unitless($gut) { // If columns are fixed width and gutters are fluid width
-											$min-width: calc(((#{$max-width} - #{bp-attribute($bp-final, cols) * $col}) * #{($mar * 2) / ((bp-attribute($bp-final, cols) * ($gut - 1)) + ($mar * 2))}) + #{$max-width});
-										}
-									} @else {
-										$min-width: calc(#{$max-width} + (#{$mar} * 2));
-									}
+								} @else {
+									$min-width: calc(#{$max-width} + (#{$mar} * 2));
 								}
 								@media screen and (min-width: $min-width) {
 									margin: 0 auto;
 								}
+								$mar: $mar-init !global;
 							} @else {
-								@warn "$max-width's value in _column-settings.scss is invalid. It must be a number with a unit. " + $more-info;
+								@warn "$max-width's value ('" + $max-width + "') in _column-settings.scss is invalid. It must be a number with a unit. " + $more-info;
 							}
 						}
 
@@ -534,7 +529,7 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 									$gp: rgba($grid-color, 0.2);
 									$gg: rgba($grid-color, 0);
 								} @else {
-									@warn "$grid-color's value in _column-settings.scss is invalid. It must be a color. " + $more-info;
+									@warn "$grid-color's value ('" + $grid-color + "') in _column-settings.scss is invalid. It must be a color. " + $more-info;
 								}
 							}
 							position: relative;
@@ -567,9 +562,9 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 				@error $breakpoints-missing + $breakpoints-lesson;
 			}
 		} @else {
-			@error $component-settings-invalid + $component-settings-lesson;
+			@error $property-settings-invalid + $property-settings-lesson;
 		}
 	} @else {
-		@error $component-settings-missing + $component-settings-lesson;
+		@error $property-settings-missing + $property-settings-lesson;
 	}
 }

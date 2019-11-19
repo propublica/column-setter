@@ -1,7 +1,7 @@
 // ------------------------------------------------------------
-// GRID COMPONENTS
+// GRID PROPERTIES
 // ------------------------------------------------------------
-// Customize the widths of your grid's components by editing
+// Customize the widths of your grid's properties by editing
 // the variables below. For an entirely fluid grid, use all
 // unitless numbers (e.g. "$mar: 4; $col: 3;"). These will
 // establish the grid's proportions and will cause colspan()
@@ -43,9 +43,11 @@ $grid-color: red; // Grid overlay color
 //    unitless), and minimum width ("min-width", with units)
 //    for each breakpoint
 //
-// All breakpoints use the same proportions specified in the
-// variables above, but margin widths can be optionally 
-// customized for each breakpoint.
+// Any or all of the grid property widths can optionally be
+// customized per breakpoint, using the keys "margin",
+// "column", "gutter", and "padding". Breakpoints without
+// those customizations will use the same property widths
+// specified in the variables above.
 
 $breakpoints: (
 	xs: (cols:  4, min-width:  0,   margin: $pad), // Includes optional custom margin
