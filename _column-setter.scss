@@ -509,7 +509,8 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 									$horiz-margin: 0;
 								} @else if unitless($mar) { // If margins are fluid width
 									@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
-										$horiz-margin: colspan($mar, fluid-width(bp-attribute($bp, cols)) + ($mar * 2));
+										// $horiz-margin: colspan($mar, fluid-width(bp-attribute($bp, cols)) + ($mar * 2));
+										$horiz-margin: percentage($mar / (fluid-width(bp-attribute($bp, cols)) + ($mar * 2)));
 									} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
 										$horiz-margin: calc((100% - #{(bp-attribute($bp, cols) - 1) * $gut}) * #{$mar / (($col * bp-attribute($bp, cols)) + ($mar * 2))});
 									} @else if unitless($gut) { // If columns are fixed width and gutters are fluid width
@@ -538,7 +539,7 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 									$min-width: $max-width;
 								} @else if unitless($mar) { // If margins are fluid width
 									@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
-										$min-width: (((($mar / (fluid-width(bp-attribute($bp-final, cols)) + ($mar * 2))) * $max-width) * 2) + $max-width);
+										$min-width: ((($mar / (fluid-width(bp-attribute($bp-final, cols)) + ($mar * 2))) * $max-width) * 2) + $max-width;
 									} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
 										$min-width: calc(((#{$max-width} - #{(bp-attribute($bp-final, cols) - 1) * $gut}) * #{($mar * 2) / ((bp-attribute($bp-final, cols) * $col) + ($mar * 2))}) + #{$max-width});
 									} @else if unitless($gut) { // If columns are fixed width and gutters are fluid width

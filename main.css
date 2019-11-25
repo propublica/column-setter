@@ -53,19 +53,19 @@ table {
   position: relative; }
   @media screen and (min-width: 0) {
     .main {
-      margin: 0 3.0612244898%; } }
+      margin: 0 5%; } }
   @media screen and (min-width: 30em) {
     .main {
-      margin: 0 5.0632911392%; } }
+      margin: 0 6.25%; } }
   @media screen and (min-width: 40em) {
     .main {
-      margin: 0 7.8947368421%; } }
+      margin: 0 8.6956521739%; } }
   @media screen and (min-width: 50em) {
     .main {
-      margin: 0 5.487804878%; } }
+      margin: 0 6.0606060606%; } }
   @media screen and (min-width: 60em) {
     .main {
-      margin: 0 4.2056074766%; } }
+      margin: 0 4.6511627907%; } }
   @media screen and (min-width: 76.511627907em) {
     .main {
       margin: 0 auto; } }
