@@ -1,6 +1,6 @@
 // ------------------------------------------------------------
 // COLUMN SETTER v2.0 UPDATES:
-// 
+// ------------------------------------------------------------
 // - Unit values are now supported in the grid property
 //   variables ($mar, $col, $gut, $pad) in
 //   _column-settings.scss
@@ -111,7 +111,7 @@ $more-info: "Learn more: https://github.com/propublica/column-setter";
 // to-number()
 // ----------------------------------------
 // Column Setter uses to-number() to convert strings to numbers
-// when "+g" is used in a colspan() function. to-number() was
+// when "+g" is used in a colspan() function. This function was
 // written by Hugo Giraudel:
 // https://gist.github.com/HugoGiraudel/9fa19d254864f33d4a80
 
@@ -127,7 +127,6 @@ $more-info: "Learn more: https://github.com/propublica/column-setter";
 	$numbers: ('0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9);
 	@for $i from if($minus, 2, 1) through str-length($value) {
 		$character: str-slice($value, $i, $i);
-
 		@if not (index(map-keys($numbers), $character) or $character == '.') {
 			@return to-length(if($minus, -$result, $result), str-slice($value, $i));
 		}
@@ -168,7 +167,7 @@ $property-settings-invalid: "Some information is invalid in the grid property va
 $property-settings-missing: "Some information is missing from the grid property variables. ";
 $property-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric value defined in _column-settings.scss. " + $more-info;
 
-@function colspan($target:null, $container:null) {
+@function colspan($target:null, $container:null, $div:null) {
 	@if global-variable-exists("mar")
 	and global-variable-exists("col")
 	and global-variable-exists("gut")
@@ -177,7 +176,9 @@ $property-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric 
 		and type-of($col) == number
 		and type-of($gut) == number
 		and type-of($pad) == number {
+
 			$addgut: false;
+
 			@if type-of($target) == string and str-slice($target, -1, -1) == "g" {
 				$temptarget: str-slice($target, 1, -2);
 				$temptarget: to-number($temptarget);
@@ -186,14 +187,21 @@ $property-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric 
 					$addgut: true;
 				}
 			}
+
 			@if $target and $container { // If a target and container have been specified
+
 				@if $target == $container { // If the target and container are the same
 					@return 100%;
 				} @else if type-of($container) == number and unitless($container) { // If the container is a unitless number
+					
 					$addgutAmount: 0;
 					$negAmount: 1;
 					$negOpen: "";
 					$negClose: "";
+					$divAmount: 1;
+					$divOpen: "";
+					$divClose: "";
+
 					@if unitless($gut) == false { // If gutters are fixed width
 						@if $addgut == true { // If a gutter is added to the target width
 							$addgutAmount: $gut;
@@ -215,52 +223,52 @@ $property-settings-lesson: "$mar, $col, $gut, and $pad must each have a numeric 
 						$negClose: ") * " + $negAmount;
 					}
 
+					@if type-of($div) == number and unitless($div) {
+						$divAmount: $div;
+						$divOpen: "(";
+						$divClose: ") / " + $divAmount;
+					}
+
 					@if $target == 0 {
 						@return 0;
 					} @else if $target == "p" or $target == "-p" { // If the target is "p" (padding)
-						@if $addgut == true { // If a gutter is added to the target width
-							@warn "'addgut' can't be used with padding or gutter widths. " + $colspan-lesson;
-							@return false;
-						} @else if $pad == 0 { // If the padding value is 0
+						@if $pad == 0 { // If the padding value is 0
 							@return 0;
 						} @else if not unitless($pad) { // If padding is fixed width
-							@return $pad * $negAmount;
+							@return $pad * $negAmount / $divAmount;
 						} @else if unitless($col) and unitless($gut) { // If padding, columns, and gutters are fluid width
-							@return percentage($pad / fluid-width($container)) * $negAmount;
+							@return percentage($pad / fluid-width($container)) * $negAmount / $divAmount;
 						} @else if unitless($col) { // If padding and columns are fluid width and gutters are fixed width
-							@return calc(#{$negOpen}((100% - #{$gut * ($container - 1)}) / #{$container}) * #{$pad / $col}#{$negClose});
+							@return calc(#{$divOpen}#{$negOpen}((100% - #{$gut * ($container - 1)}) / #{$container}) * #{$pad / $col}#{$negClose}#{$divClose});
 						} @else if unitless($gut) { // If padding and gutters are fluid width and columns are fixed width
-							@return calc(#{$negOpen}((100% - #{$col * $container}) / #{$container - 1}) * #{$pad / $gut}#{$negClose});
+							@return calc(#{$divOpen}#{$negOpen}((100% - #{$col * $container}) / #{$container - 1}) * #{$pad / $gut}#{$negClose}#{$divClose});
 						} @else { // If padding is fluid width and columns and gutters are fixed width
 							@warn "For padding to be fluid width, columns and/or gutters must also be fluid width. " + $more-info;
 							@return 0;
 						}
 					} @else if $target == "g" or $target == "-g" { // If the target is "g" (gutter)
-						@if $addgut == true { // If a gutter is added to the target width
-							@warn "'addgut' can't be used with padding or gutter widths. " + $colspan-lesson;
-							@return false;
-						} @else if $gut == 0 { // If the gutter value is 0
+						@if $gut == 0 { // If the gutter value is 0
 							@return 0;
 						} @else if not unitless($gut) { // If gutters are fixed width
-							@return $gut * $negAmount;
+							@return $gut * $negAmount / $divAmount;
 						} @else if unitless($col) { // If gutters and columns are fluid width
-							@return (percentage($gut / fluid-width($container)) + $addgutAmount) * $negAmount;
+							@return (percentage($gut / fluid-width($container)) + $addgutAmount) * $negAmount / $divAmount;
 						} @else { // If gutters are fluid width and columns are fixed width
-							@return calc(#{$negOpen}(100% - #{$col * $container}) / #{$container - 1}#{$negClose});
+							@return calc(#{$divOpen}#{$negOpen}(100% - #{$col * $container}) / #{$container - 1}#{$negClose}#{$divClose});
 						}
 					} @else if type-of($target) == number and unitless($target) { // If the target is a unitless number
 						@if not unitless($col) { // If columns are fixed width
 							@if unitless($gut) { // If gutters are fluid width
-								@return calc(#{$negOpen}(((100% - #{$col * $container}) / #{$container - 1}) * #{$target - 1 + $addgutAmount}) + #{$col * $target}#{$negClose});
+								@return calc(#{$divOpen}#{$negOpen}(((100% - #{$col * $container}) / #{$container - 1}) * #{$target - 1 + $addgutAmount}) + #{$col * $target}#{$negClose}#{$divClose});
 							} @else if unit($col) == unit($gut) { // If columns and gutters are fixed width and use the same units
-								@return (($col * $target) + ($gut * ($target - 1)) + $addgutAmount) * $negAmount;
+								@return (($col * $target) + ($gut * ($target - 1)) + $addgutAmount) * $negAmount / $divAmount;
 							} @else { // If columns and gutters are fixed width and use different units
-								@return calc(#{$negOpen}#{($col * $target)} + #{($gut * ($target - 1)) + $addgutAmount}#{$negClose});
+								@return calc(#{$divOpen}#{$negOpen}#{($col * $target)} + #{($gut * ($target - 1)) + $addgutAmount}#{$negClose}#{$divClose});
 							}
 						} @else if unitless($gut) { // If columns are fluid width and gutters are fluid width
-							@return (percentage(fluid-width($target) / fluid-width($container)) + $addgutAmount) * $negAmount;
+							@return (percentage(fluid-width($target) / fluid-width($container)) + $addgutAmount) * $negAmount / $divAmount;
 						} @else { // If columns are fluid width and gutters are fixed width
-							@return calc(#{$negOpen}(((100% - #{$gut * ($container - 1)}) / #{$container}) * #{$target}) + #{($gut * ($target - 1)) + $addgutAmount}#{$negClose});
+							@return calc(#{$divOpen}#{$negOpen}(((100% - #{$gut * ($container - 1)}) / #{$container}) * #{$target}) + #{($gut * ($target - 1)) + $addgutAmount}#{$negClose}#{$divClose});
 						}
 					} @else { // If the specified target is not "p", "g", or a unitless number
 						@warn invalid("colspan",$target,$container) + wrong-type("unitless number",$target) + ". " + $colspan-lesson;
@@ -342,10 +350,12 @@ $bp-range-lesson: "";
 		and unitless(bp-attribute($bp, "cols"))
 		and bp-attribute($bp, "min-width")
 		and type-of(bp-attribute($bp, "min-width")) == number {
+			@if bp-attribute($bp, "margin") { $mar: bp-attribute($bp, "margin") !global; }
 			@if bp-attribute($bp, "column") { $col: bp-attribute($bp, "column") !global; }
 			@if bp-attribute($bp, "gutter") { $gut: bp-attribute($bp, "gutter") !global; }
 			@if bp-attribute($bp, "padding") { $pad: bp-attribute($bp, "padding") !global; }
 			@media screen and (min-width: bp-attribute($bp, min-width)) { @content; }
+			$mar: $mar-init !global;
 			$col: $col-init !global;
 			$gut: $gut-init !global;
 			$pad: $pad-init !global;
@@ -415,10 +425,12 @@ $bp-range-lesson: "";
 		and unitless(bp-attribute($bp-max, "cols"))
 		and bp-attribute($bp-max, "min-width")
 		and type-of(bp-attribute($bp-max, "min-width")) == number {
+			@if bp-attribute($bp-min, "margin") { $mar: bp-attribute($bp-min, "margin") !global; }
 			@if bp-attribute($bp-min, "column") { $col: bp-attribute($bp-min, "column") !global; }
 			@if bp-attribute($bp-min, "gutter") { $gut: bp-attribute($bp-min, "gutter") !global; }
 			@if bp-attribute($bp-min, "padding") { $pad: bp-attribute($bp-min, "padding") !global; }
 			@media screen and (min-width: bp-attribute($bp-min, min-width)) and (max-width: bp-attribute($bp-max, min-width)) { @content }
+			$mar: $mar-init !global;
 			$col: $col-init !global;
 			$gut: $gut-init !global;
 			$pad: $pad-init !global;
@@ -509,7 +521,6 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 									$horiz-margin: 0;
 								} @else if unitless($mar) { // If margins are fluid width
 									@if unitless($col) and unitless($gut) { // If columns and gutters are fluid width
-										// $horiz-margin: colspan($mar, fluid-width(bp-attribute($bp, cols)) + ($mar * 2));
 										$horiz-margin: percentage($mar / (fluid-width(bp-attribute($bp, cols)) + ($mar * 2)));
 									} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
 										$horiz-margin: calc((100% - #{(bp-attribute($bp, cols) - 1) * $gut}) * #{$mar / (($col * bp-attribute($bp, cols)) + ($mar * 2))});
