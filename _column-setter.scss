@@ -143,6 +143,20 @@ $more-info: "Learn more: https://github.com/propublica/column-setter";
 }
 
 // ----------------------------------------
+// strip-unit()
+// ----------------------------------------
+// Column Setter uses strip-unit() to remove the unit of a
+// length. This function was written by Hugo Giraudel:;
+// https://css-tricks.com/snippets/sass/strip-unit-function/
+
+@function strip-unit($number) {
+	@if type-of($number) == "number" and not unitless($number) {
+		@return $number / ($number * 0 + 1);
+	}
+	@return $number;
+}
+
+// ----------------------------------------
 // colspan()
 // ----------------------------------------
 // colspan() allows the user to generate grid-based width
@@ -538,12 +552,14 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 							}
 						}
 
+						$chrome-warning: "A bug in Google Chrome might prevent your layout from being centered on viewports wider than your $max-width. " + $more-info;
+
 						@if global-variable-exists("max-width") { // If there is a max-width
 							@if type-of($max-width) == number and unitless($max-width) == false { // If $max-width is correctly formatted
 								max-width: $max-width;
 								$min-width: $max-width;
 								$bp-final: nth(map-keys($breakpoints), -1); // The widest breakpoint
-								@if bp-attribute($bp-final, "margin") { // If this breakpoint has custom margins
+								@if bp-attribute($bp-final, "margin") { // If the widest breakpoint has custom margins
 									$mar: bp-attribute($bp-final, "margin") !global;
 								}
 								@if $mar == 0 {
@@ -553,11 +569,22 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 										$min-width: ((($mar / (fluid-width(bp-attribute($bp-final, cols)) + ($mar * 2))) * $max-width) * 2) + $max-width;
 									} @else if unitless($col) { // If columns are fluid width and gutters are fixed width
 										$min-width: calc(((#{$max-width} - #{(bp-attribute($bp-final, cols) - 1) * $gut}) * #{($mar * 2) / ((bp-attribute($bp-final, cols) * $col) + ($mar * 2))}) + #{$max-width});
+										@warn $chrome-warning;
 									} @else if unitless($gut) { // If columns are fixed width and gutters are fluid width
 										$min-width: calc(((#{$max-width} - #{bp-attribute($bp-final, cols) * $col}) * #{($mar * 2) / ((bp-attribute($bp-final, cols) * ($gut - 1)) + ($mar * 2))}) + #{$max-width});
+										@warn $chrome-warning;
 									}
-								} @else {
-									$min-width: calc(#{$max-width} + (#{$mar} * 2));
+								} @else { // If margins are fixed width
+									@if unit($max-width) == unit($mar) {
+										$min-width: $max-width + ($mar * 2);
+									} @else if unit($max-width) == "px" and (unit($mar) == "em" or unit($mar) == "rem") {
+										$min-width: $max-width + (strip-unit($mar) * 16 * 2 * 1px);
+									} @else if (unit($max-width) == "em" or unit($max-width) == "rem") and unit($mar) == "px" {
+										$min-width: (strip-unit($max-width) * 16 * 1px) + ($mar * 2);
+									} @else {
+										$min-width: calc(#{$max-width} + #{$mar * 2});
+										@warn $chrome-warning;
+									}
 								}
 								@media screen and (min-width: $min-width) {
 									margin: 0 auto;
