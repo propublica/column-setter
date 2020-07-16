@@ -596,14 +596,14 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 						}
 
 						@if $overlay == overlay {
-							$gc: rgba(red, 0.1);
-							$gp: rgba(red, 0.2);
-							$gg: rgba(red, 0);
+							$gc: rgba(red, 0.1); // grid column color
+							$gp: rgba(red, 0.2); // grid padding color
+							$gg: rgba(red, 0.0); // grid gutter color
 							@if global-variable-exists("grid-color") {
 								@if type-of($grid-color) == color {
 									$gc: rgba($grid-color, 0.1);
 									$gp: rgba($grid-color, 0.2);
-									$gg: rgba($grid-color, 0);
+									$gg: rgba($grid-color, 0.0);  
 								} @else {
 									@warn "$grid-color's value ('" + $grid-color + "') in _column-settings.scss is invalid. It must be a color. " + $more-info;
 								}
@@ -612,13 +612,28 @@ $grid-lesson: "A 'grid' mixin call must include a valid class name, e.g. 'grid(c
 							&:before {
 								@each $bp, $value in $breakpoints {
 									@include breakpoint-min($bp) {
-										background-image: repeating-linear-gradient(
-											to right,
-											$gc,
-											$gc colspan(1, bp-attribute($bp, cols)),
-											$gg colspan(1, bp-attribute($bp, cols)),
-											$gg colspan(1+g, bp-attribute($bp, cols))
-										);
+										@if unitless($col) and unitless($gut) and unitless($pad) {
+											background-image: repeating-linear-gradient(
+												to right,
+												$gp,
+												$gp colspan(p, bp-attribute($bp, cols)),
+												$gc colspan(p, bp-attribute($bp, cols)),
+												$gc colspan(p, bp-attribute($bp, cols)),
+												$gc (colspan(1, bp-attribute($bp, cols)) - colspan(p, bp-attribute($bp, cols))),
+												$gp (colspan(1, bp-attribute($bp, cols)) - colspan(p, bp-attribute($bp, cols))),
+												$gp colspan(1, bp-attribute($bp, cols)),
+												$gg colspan(1, bp-attribute($bp, cols)),
+												$gg colspan(1+g, bp-attribute($bp, cols))
+											);
+										} @else {
+											background-image: repeating-linear-gradient(
+												to right,
+												$gc,
+												$gc colspan(1, bp-attribute($bp, cols)),
+												$gg colspan(1, bp-attribute($bp, cols)),
+												$gg colspan(1+g, bp-attribute($bp, cols))
+											);
+										}
 									}
 								}
 								bottom: 0;
