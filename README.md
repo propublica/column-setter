@@ -92,7 +92,7 @@ Or something like this:
 
 ```css
 .example {
-  width: calc((((100% - 3em) / 12) * 6) + 2em);
+  width: calc((((100% - 11em) / 12) * 6) + 5em);
 }
 ```
 
