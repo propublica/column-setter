@@ -1,17 +1,7 @@
 // ------------------------------------------------------------
-// COLUMN SETTER v2.0 UPDATES:
+// COLUMN SETTER V2.0
 // ------------------------------------------------------------
-// - Unit values are now supported in the grid property
-//   variables ($mar, $col, $gut, $pad) in
-//   _column-settings.scss
-// - All grid property widths can now be customized
-//   per breakpoint in the $breakpoints map in
-//   _column-settings.scss
-// - colspan() can now natively generate negative width values
-//   (by specifying the target as a negative number) and add a
-//   gutter to width values (by adding "+g" to the target)
-// - A wider range of errors now can be detected, including
-//   missing or incorrectly formatted settings
+// https://github.com/propublica/column-setter
 // ------------------------------------------------------------
 
 $mar-init: $mar;

@@ -1,28 +1,12 @@
 // ------------------------------------------------------------
+// COLUMN SETTINGS
+// ------------------------------------------------------------
+// https://github.com/propublica/column-setter
+// ------------------------------------------------------------
+
+// ------------------------------------------------------------
 // GRID PROPERTIES
 // ------------------------------------------------------------
-// Customize the widths of your grid's properties by editing
-// the variables below. For an entirely fluid grid, use all
-// unitless numbers (e.g. "$mar: 4; $col: 3;"). These will
-// establish the grid's proportions and will cause colspan()
-// to generate % values. Otherwise, units are allowed
-// (e.g. "$gut: 1em;"), as is a mix of unitless and units
-// (e.g. "$col: 3; $gut: 1em;"). These will cause colspan()
-// to generate calc() values. When using units, keep these
-// caveats in mind:
-// 
-// - Giving $col a unit value is allowed but not recommended.
-// - In the absence of a unitless $mar value, any unitless
-//   $col value will have the same effect when $gut has a unit
-//   value: columns will fill the available space, as if they
-//   were all 1fr in CSS Grid. The inverse is also true: any
-//   unitless $gut value will fill the available space when 
-//   $col has a unit value.
-// - Making $mar or $pad unitless will have no effect unless
-//   $col and/or $gut are also unitless.
-//
-// IMPORTANT: Don't delete any of these variables! For any you
-// don't need to use, just assign a value of 0.
 
 $mar: 4; // Margin width
 $col: 3; // Column width
@@ -34,20 +18,6 @@ $grid-color: red; // Grid overlay color
 // ------------------------------------------------------------
 // BREAKPOINTS
 // ------------------------------------------------------------
-// You can define as many (or as few) breakpoints as you like,
-// and name them whatever you want. Just be sure to:
-//
-// 1. use the syntax shown below,
-// 2. keep the breakpoints in order (smallest to largest), and
-// 3. include a name (e.g. "xl"), column count ("cols",
-//    unitless), and minimum width ("min-width", with units)
-//    for each breakpoint
-//
-// Any or all of the grid property widths can optionally be
-// customized per breakpoint, using the keys "margin",
-// "column", "gutter", and "padding". Breakpoints without
-// those customizations will use the same property widths
-// specified in the variables above.
 
 $breakpoints: (
 	xs: (cols:  4, min-width:  0,   margin: $pad), // Includes optional custom margin
