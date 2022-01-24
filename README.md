@@ -24,13 +24,15 @@ Column Setter is a [Sass](https://github.com/sass/sass) tool that lets you easil
 
 Begin by saving `_column-settings.scss` and `_column-setter.scss` in the same directory as your main Sass file.
 
+### Grid proportions
+
 In `_column-settings.scss`, customize your grid’s proportions by editing the values of the four variables at the top of the file (`$mar`, `$col`, `$gut`, `$pad`). These establish the spatial relationship between the grid’s properties. For an entirely fluid grid, use all unitless numbers (e.g. “`$mar: 4; $col: 3;`”). These will cause [`colspan()`](#colspan), Column Setter’s central function, to generate `%` values. Otherwise, units are allowed (e.g. “`$gut: 1em;`”), as is a mix of unitless and units (e.g. “`$col: 3; $gut: 1em;`”). Mixed units will cause `colspan()` to generate `calc()` values. When using units, keep these caveats in mind:
 
 * Giving `$col` a unit value is allowed but not recommended.
-* In the absence of a unitless $mar value, any unitless `$col` value will have the same effect when `$gut` has a unit value: columns will fill the available space, as if they  were all `1fr` in CSS Grid. The inverse is also true: any unitless `$gut` value will fill the available space when `$col` has a unit value.
+* If `$mar` and `$gut` both have unit values, giving `$col` any unitless value will make columns fill the available space, as if they were `1fr` in CSS Grid. Likewise, if `$mar` and `$col` both have unit values, giving `$gut` any unitless value will make gutters fill the available space.
 * Making `$mar` or `$pad` unitless will have no effect unless `$col` and/or `$gut` are also unitless.
 
-However you decide to define their values, **don’t delete any of these variables.** For any you don’t need to use, just assign a value of 0. The Column Setter demo creates a completely fluid grid by using all unitless values:
+However you decide to define their values, **don’t delete any of these variables.** For any you don’t need to use, just assign a value of 0. The Column Setter demo (`demo.html`) creates a completely fluid grid by using all unitless values:
 
 ```scss
 $mar: 4; // Margin width
@@ -39,11 +41,13 @@ $gut: 2; // Gutter width
 $pad: 1; // Padding width
 ```
 
+### Breakpoints
+
 Once you’ve chosen values for the grid proportions, customize the layout’s breakpoints by editing the `$breakpoints` map. You can define as many (or as few) breakpoints as you like, and name them whatever you want. Just be sure to:
 
 * use the syntax shown below
 * keep the breakpoints in order (smallest to largest)
-* include a name (e.g. `xl`), column count (`cols`, unitless) and minimum width (`min-width`, with units, such as `em` or `px`) for each breakpoint
+* include a name (e.g. `xl`), number of columns (`cols`, unitless) and minimum width (`min-width`, with units, such as `em` or `px`) for each breakpoint
 
 Any or all of the grid’s proportions can optionally be customized per breakpoint, using the keys `margin`, `column`, `gutter`, and `padding`. Breakpoints without those customizations will use the same proportions specified in the variables above. Here’s a sample `$breakpoints` map with five breakpoints:
 
@@ -72,7 +76,7 @@ Once your settings are in place, import `_column-settings.scss` and `_column-set
 
 ### `colspan()`
 
-`colspan()` is a function used to generate percentage widths in proportion with the grid. To use it on an element, you’ll need to know how many columns wide the element’s container is. For example, to specify a width of six columns for an element inside a container that’s 12 columns wide:
+`colspan()` is a function used to generate width values that align with the grid. To use it on an element, you’ll need to know how many columns wide the element’s container is. For example, to specify a width of six columns for an element inside a container that’s 12 columns wide:
 
 ```scss
 .example {
@@ -112,11 +116,11 @@ A gutter width can optionally be added by including `+g`:
 
 ```scss
 .example {
-  margin-left: colspan( 6+g, 12 );
+  margin-left: colspan( 6+g, 12 ); // 6 columns wide out of 12, plus an extra gutter
 }
 ```
 
-Widths can also be made negative by including `-`:
+Widths can also be made negative (useful for negative margins) by including `-`:
 
 ```scss
 .example {
@@ -216,7 +220,7 @@ The above code compiles to:
     margin-left: colspan( -1+g, 8 );
     ```
 
-* Each breakpoint is required to specify a column count, but those column counts don’t all have to be unique. You might want certain elements to change at a certain breakpoint without changing the rest of the layout. Just add another breakpoint in `_column-settings.scss` with the same number of columns as the one before or after it.
+* Each breakpoint is required to specify a number of columns, but those column counts don’t all have to be unique. You might want certain elements to change at a certain breakpoint without changing the rest of the layout. Just add another breakpoint in `_column-settings.scss` with the same number of columns as the one before or after it.
 
     ```scss
     $breakpoints: (
