@@ -1,0 +1,25 @@
+{
+  "name": "column-setter",
+  "version": "1.0.0",
+  "description": "Column Setter is a Sass tool that lets you easily set up a custom responsive grid for your website and build a float- or flexbox-based layout that aligns to it.",
+  "main": "main.scss",
+  "style": "_column-setter.scss",
+  "sass": "_column-setter.scss",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/propublica/column-setter.git"
+  },
+  "keywords": [
+    "css",
+    "sass",
+    "sass-mixins",
+    "grids",
+    "layout"
+  ],
+  "author": "Rob Weychert",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/propublica/column-setter/issues"
+  },
+  "homepage": "https://github.com/propublica/column-setter#readme"
+}
