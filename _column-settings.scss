@@ -1,14 +1,15 @@
 // ------------------------------------------------------------
-// GRID PROPORTIONS
+// COLUMN SETTINGS
 // ------------------------------------------------------------
-// Customize your grid’s proportions by editing the values of
-// the four variables below. Use only numbers for values, no
-// units (e.g. "10", not "10px"). IMPORTANT: Don't delete any
-// of these variables! For any you don't need to use, just
-// assign a value of 0.
+// https://github.com/propublica/column-setter
+// ------------------------------------------------------------
+
+// ------------------------------------------------------------
+// GRID PROPERTIES
+// ------------------------------------------------------------
 
 $mar: 4; // Margin width
-$col: 4; // Column width
+$col: 3; // Column width
 $gut: 2; // Gutter width
 $pad: 1; // Padding width
 
@@ -17,18 +18,6 @@ $grid-color: red; // Grid overlay color
 // ------------------------------------------------------------
 // BREAKPOINTS
 // ------------------------------------------------------------
-// You can define as many (or as few) breakpoints as you like,
-// and name them whatever you want. Just be sure to:
-//
-// 1. use the syntax shown below,
-// 2. keep the breakpoints in order (smallest to largest), and
-// 3. include a name (e.g. "xl"), column count ("cols",
-//    unitless), and minimum width ("min-width", with units)
-//    for each breakpoint
-//
-// All breakpoints use the same proportions specified in the
-// variables above, but margin widths can be optionally 
-// customized for each breakpoint.
 
 $breakpoints: (
 	xs: (cols:  4, min-width:  0,   margin: $pad), // Includes optional custom margin
